@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="1024" viewBox="0 0 2048 1024">
+  <defs>
+    <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#8bbbd1"/>
+      <stop offset="0.55" stop-color="#d7c58c"/>
+      <stop offset="1" stop-color="#5e8b67"/>
+    </linearGradient>
+    <linearGradient id="grass" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#3f8f59"/>
+      <stop offset="1" stop-color="#19613d"/>
+    </linearGradient>
+    <linearGradient id="stand" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#22483f"/>
+      <stop offset="0.22" stop-color="#49695f"/>
+      <stop offset="0.5" stop-color="#263b39"/>
+      <stop offset="0.78" stop-color="#58716b"/>
+      <stop offset="1" stop-color="#22483f"/>
+    </linearGradient>
+  </defs>
+  <rect width="2048" height="1024" fill="url(#sky)"/>
+  <rect y="612" width="2048" height="412" fill="url(#grass)"/>
+  <ellipse cx="1024" cy="610" rx="1120" ry="210" fill="url(#stand)"/>
+  <ellipse cx="1024" cy="660" rx="880" ry="150" fill="#1f332f"/>
+  <ellipse cx="1024" cy="710" rx="740" ry="118" fill="#2d7a4e"/>
+  <path d="M0 640 C320 520 640 505 1024 550 C1408 505 1728 520 2048 640 L2048 782 C1680 690 1350 672 1024 706 C700 672 368 690 0 782 Z" fill="#d9dfd7" opacity="0.82"/>
+  <path d="M140 696 C430 616 720 614 1024 650 C1328 614 1618 616 1908 696" fill="none" stroke="#f7f4e9" stroke-width="12" opacity="0.92"/>
+  <path d="M514 807 C780 758 1268 758 1534 807" fill="none" stroke="#f7f4e9" stroke-width="8" opacity="0.86"/>
+  <path d="M1024 622 L1024 1024" stroke="#f7f4e9" stroke-width="7" opacity="0.78"/>
+  <ellipse cx="1024" cy="823" rx="150" ry="42" fill="none" stroke="#f7f4e9" stroke-width="7" opacity="0.78"/>
+  <g opacity="0.58">
+    <rect x="92" y="565" width="54" height="38" rx="3" fill="#d53748"/>
+    <rect x="160" y="553" width="70" height="48" rx="3" fill="#f4c84e"/>
+    <rect x="242" y="566" width="58" height="36" rx="3" fill="#2c7bbe"/>
+    <rect x="1748" y="566" width="58" height="36" rx="3" fill="#d53748"/>
+    <rect x="1818" y="553" width="70" height="48" rx="3" fill="#f4c84e"/>
+    <rect x="1902" y="565" width="54" height="38" rx="3" fill="#2c7bbe"/>
+  </g>
+  <g opacity="0.22" fill="#ffffff">
+    <circle cx="310" cy="182" r="7"/>
+    <circle cx="892" cy="118" r="5"/>
+    <circle cx="1360" cy="170" r="6"/>
+    <circle cx="1730" cy="114" r="4"/>
+  </g>
+</svg>

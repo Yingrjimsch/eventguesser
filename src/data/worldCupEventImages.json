@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "description": "Match-specific Wikimedia Commons images keyed by World Cup event id. Images are discovered from per-match Commons categories where available.",
+  "sources": [
+    {
+      "name": "Wikimedia Commons",
+      "url": "https://commons.wikimedia.org/",
+      "usedFor": "Freely licensed match image discovery and image metadata."
+    }
+  ],
+  "events": {
+    "M-1998-01": {
+      "category": "Category:1998 FIFA World Cup Match 1, Brazil v Scotland",
+      "images": [
+        {
+          "title": "File:Fansecosse1998.jpg",
+          "pageUrl": "https://commons.wikimedia.org/wiki/File%3AFansecosse1998.jpg",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/47/Fansecosse1998.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Fansecosse1998.jpg",
+          "license": "CC BY-SA 3.0",
+          "artist": "The original uploader was <a href=\"https://en.wikipedia.org/wiki/fr:User:Clio64\" class=\"extiw\" title=\"w:fr:User:Clio64\">Clio64</a> at <a href=\"https://en.wikipedia.org/wiki/fr:\" class=\"extiw\" title=\"w:fr:\">French Wikipedia</a>.",
+          "credit": "<bdi lang=\"en\" dir=\"ltr\">Transferred from <span class=\"plainlinks\"><a class=\"external text\" data-mw-original-href=\"//fr.wikipedia.org\" href=\"https://fr.wikipedia.org\">fr.wikipedia</a></span> to Commons by <a href=\"//commons.wikimedia.org/wiki/User:Bloody-libu\" title=\"User:Bloody-libu\">Bloody-libu</a> using <a href=\"https://iw.toolforge.org/commonshelper/\" class=\"extiw\" title=\"toollabs:commonshelper/\">CommonsHelper</a>.</bdi>",
+          "mime": "image/jpeg"
+        }
+      ]
+    }
+  }
+}

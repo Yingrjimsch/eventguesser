@@ -1,0 +1,150 @@
+import { useMemo, useState } from "react";
+import { soccerModule } from "../modules/soccer/soccerModule";
+import { soccerRounds } from "../modules/soccer/soccerRounds";
+import type { EventRound, GameSettings, RoundGuess, RoundOutcome } from "../game/gameTypes";
+import { createInitialGameState, getCurrentRound } from "../game/gameState";
+import { calculateRoundScore, createTimeoutRoundScore } from "../game/scoring";
+import { StartScreen } from "../components/StartScreen";
+import { RoundScreen } from "../components/RoundScreen";
+import { FinalResultsScreen } from "../components/FinalResultsScreen";
+
+type AppScreen = "start" | "round" | "final";
+
+const defaultSettings: GameSettings = {
+  category: "soccer",
+  roundCount: 5,
+  roundDurationSeconds: 90,
+};
+
+export function App() {
+  const [screen, setScreen] = useState<AppScreen>("start");
+  const [settings, setSettings] = useState<GameSettings>(defaultSettings);
+  const [rounds, setRounds] = useState<EventRound[]>([]);
+  const [currentRoundIndex, setCurrentRoundIndex] = useState(0);
+  const [outcomes, setOutcomes] = useState<RoundOutcome[]>([]);
+  const [roundStartedAt, setRoundStartedAt] = useState<number>(Date.now());
+  const score = useMemo(
+    () => outcomes.reduce((total, outcome) => total + outcome.score.totalScore, 0),
+    [outcomes],
+  );
+
+  const gameState = useMemo(
+    () => ({
+      ...createInitialGameState(settings, rounds, currentRoundIndex),
+      score,
+    }),
+    [settings, rounds, currentRoundIndex, score],
+  );
+
+  const currentRound = getCurrentRound(gameState);
+
+  function startGame(nextSettings: GameSettings) {
+    const selectedRounds = selectRandomRounds(soccerRounds, nextSettings.roundCount);
+
+    setSettings(nextSettings);
+    setRounds(selectedRounds);
+    setOutcomes([]);
+    setCurrentRoundIndex(0);
+    setRoundStartedAt(Date.now());
+    setScreen("round");
+  }
+
+  function goToNextRound() {
+    if (currentRoundIndex >= rounds.length - 1) {
+      setScreen("final");
+      return;
+    }
+
+    setCurrentRoundIndex((index) => index + 1);
+    setRoundStartedAt(Date.now());
+  }
+
+  function submitGuess(guess: Omit<RoundGuess, "secondsUsed">) {
+    if (!currentRound || outcomes.some((item) => item.roundId === guess.roundId)) {
+      return;
+    }
+
+    const secondsUsed = Math.max(
+      0,
+      Math.round((Date.now() - roundStartedAt) / 1000),
+    );
+    const nextGuess: RoundGuess = {
+      ...guess,
+      secondsUsed,
+    };
+    const roundScore = calculateRoundScore(
+      currentRound,
+      nextGuess,
+      settings.roundDurationSeconds,
+      soccerModule.scoring,
+    );
+
+    setOutcomes((existingOutcomes) => {
+      return [
+        ...existingOutcomes.filter((item) => item.roundId !== guess.roundId),
+        {
+          roundId: guess.roundId,
+          guess: nextGuess,
+          score: roundScore,
+          timedOut: false,
+        },
+      ];
+    });
+  }
+
+  function timeOutRound(roundId: string) {
+    if (!currentRound || outcomes.some((item) => item.roundId === roundId)) {
+      return;
+    }
+
+    setOutcomes((existingOutcomes) => [
+      ...existingOutcomes,
+      {
+        roundId,
+        score: createTimeoutRoundScore(soccerModule.scoring),
+        timedOut: true,
+      },
+    ]);
+  }
+
+  return (
+    <main className="app-shell">
+      {screen === "start" ? (
+        <StartScreen
+          availableModules={[soccerModule]}
+          defaultSettings={settings}
+          maxRounds={soccerRounds.length}
+          onStart={startGame}
+        />
+      ) : null}
+
+      {screen === "round" && currentRound ? (
+        <RoundScreen
+          gameState={gameState}
+          round={currentRound}
+          outcome={outcomes.find((outcome) => outcome.roundId === currentRound.id)}
+          onExit={() => setScreen("start")}
+          onNextRound={goToNextRound}
+          onSubmitGuess={submitGuess}
+          onTimeOut={timeOutRound}
+        />
+      ) : null}
+
+      {screen === "final" ? (
+        <FinalResultsScreen
+          outcomes={outcomes}
+          rounds={rounds}
+          score={score}
+          onPlayAgain={() => startGame(settings)}
+          onExit={() => setScreen("start")}
+        />
+      ) : null}
+    </main>
+  );
+}
+
+function selectRandomRounds(rounds: EventRound[], roundCount: number) {
+  return [...rounds]
+    .sort(() => Math.random() - 0.5)
+    .slice(0, roundCount);
+}

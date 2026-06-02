@@ -1,0 +1,1198 @@
+:root {
+  color: #f4fbff;
+  background: #05070b;
+  --surface: rgba(10, 16, 24, 0.54);
+  --surface-strong: rgba(10, 16, 24, 0.72);
+  --surface-soft: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.18);
+  --glass-highlight: rgba(255, 255, 255, 0.34);
+  --text-main: #f4fbff;
+  --text-muted: rgba(230, 242, 246, 0.68);
+  --accent: #7ee7d1;
+  --accent-strong: #35c9a8;
+  --danger: #ff5f7d;
+  --shadow-deep: 0 24px 80px rgba(0, 0, 0, 0.42);
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  font-synthesis: none;
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: #05070b;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.56;
+}
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.start-screen {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+  gap: 32px;
+  min-height: 100vh;
+  padding: 56px;
+  align-items: end;
+  background:
+    linear-gradient(90deg, rgba(5, 7, 11, 0.84), rgba(5, 7, 11, 0.28)),
+    linear-gradient(0deg, rgba(5, 7, 11, 0.82), rgba(5, 7, 11, 0.06) 54%),
+    url("/events/mexico-86-placeholder.jpg") center / cover;
+}
+
+.start-screen::before,
+.final-screen::before,
+.round-screen::after {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+}
+
+.start-screen::before,
+.final-screen::before {
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: linear-gradient(180deg, transparent, black 18%, black 76%, transparent);
+}
+
+.round-screen::after {
+  z-index: 2;
+  background:
+    linear-gradient(90deg, rgba(3, 6, 9, 0.44), transparent 22%, transparent 72%, rgba(3, 6, 9, 0.34)),
+    linear-gradient(0deg, rgba(3, 6, 9, 0.46), transparent 28%, transparent 74%, rgba(3, 6, 9, 0.32));
+}
+
+.start-copy {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  color: var(--text-main);
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 18px;
+  font-size: clamp(2.4rem, 7vw, 5.6rem);
+  line-height: 0.95;
+}
+
+h2 {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.start-copy p:not(.eyebrow) {
+  max-width: 600px;
+  color: var(--text-muted);
+  font-size: 1.12rem;
+}
+
+.setup-panel,
+.guess-shell {
+  display: grid;
+  gap: 18px;
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.045)),
+    var(--surface);
+  box-shadow: var(--shadow-deep);
+  backdrop-filter: blur(22px) saturate(132%);
+  padding: 22px;
+}
+
+.setup-panel {
+  position: relative;
+  z-index: 1;
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.field-group {
+  display: grid;
+  gap: 7px;
+}
+
+.field-group label {
+  color: var(--text-main);
+  font-weight: 750;
+}
+
+.field-group span {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+input,
+select {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-main);
+  padding: 10px 12px;
+}
+
+select option {
+  background: #101721;
+  color: #f4fbff;
+}
+
+.primary-action,
+.secondary-action {
+  min-height: 44px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  padding: 10px 16px;
+  font-weight: 800;
+  transition:
+    border-color 150ms ease,
+    background 150ms ease,
+    transform 150ms ease;
+}
+
+.primary-action {
+  border-color: rgba(126, 231, 209, 0.38);
+  background: linear-gradient(135deg, rgba(126, 231, 209, 0.92), rgba(62, 172, 239, 0.78));
+  color: #03100d;
+}
+
+.primary-action:hover {
+  background: linear-gradient(135deg, #a7ffec, #66c8ff);
+  transform: translateY(-1px);
+}
+
+.secondary-action {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--text-main);
+  backdrop-filter: blur(16px);
+}
+
+.secondary-action:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.round-screen {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  background: #05070b;
+}
+
+.round-header {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  left: 18px;
+  z-index: 9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  color: #ffffff;
+  pointer-events: none;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+}
+
+.round-header h1 {
+  margin: 0;
+  width: fit-content;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(8, 13, 20, 0.38);
+  backdrop-filter: blur(18px);
+  padding: 10px 16px;
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  line-height: 1;
+}
+
+.round-header .secondary-action {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+.round-layout {
+  min-height: 100vh;
+}
+
+.panorama-viewer-shell,
+.event-image-shell,
+.panorama-missing {
+  position: relative;
+  overflow: hidden;
+  width: 100vw;
+  min-height: 100vh;
+  border-radius: 0;
+  background: #17201c;
+}
+
+.panorama-viewer,
+.psv-container {
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+}
+
+.event-image-shell {
+  display: grid;
+  margin: 0;
+  background: #17201c;
+}
+
+.event-image-shell img {
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  object-fit: cover;
+}
+
+.event-image-shell figcaption {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  left: 24px;
+  border-radius: 6px;
+  background: rgba(8, 13, 20, 0.48);
+  backdrop-filter: blur(16px);
+  color: #ffffff;
+  font-weight: 800;
+  padding: 10px 12px;
+}
+
+.event-image-missing {
+  place-items: center;
+  align-content: center;
+  color: #ffffff;
+  text-align: center;
+  padding: 24px;
+}
+
+.event-image-missing strong {
+  display: block;
+  font-size: 1.2rem;
+}
+
+.event-image-missing span {
+  display: block;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.panorama-viewer-shell .psv-navbar {
+  display: none;
+}
+
+.panorama-state {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(13, 21, 18, 0.72);
+  color: #ffffff;
+  font-weight: 800;
+  text-align: center;
+  padding: 24px;
+  z-index: 3;
+}
+
+.panorama-state-error {
+  gap: 6px;
+  align-content: center;
+  background: rgba(68, 21, 25, 0.86);
+}
+
+.panorama-state-error span {
+  max-width: 520px;
+  color: rgba(255, 255, 255, 0.78);
+  font-weight: 600;
+}
+
+.panorama-missing {
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.guess-shell {
+  position: absolute;
+  right: 22px;
+  bottom: 22px;
+  z-index: 6;
+  width: min(376px, calc(100vw - 44px));
+  max-height: calc(100vh - 118px);
+  overflow: auto;
+  border-color: rgba(255, 255, 255, 0.16);
+  background:
+    linear-gradient(140deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.04)),
+    rgba(7, 12, 19, 0.52);
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(26px) saturate(140%);
+  color: var(--text-main);
+  scrollbar-width: thin;
+}
+
+.status-grid {
+  position: fixed;
+  top: 18px;
+  right: 92px;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: repeat(2, 82px);
+  gap: 8px;
+}
+
+.status-grid div,
+.guess-card {
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.07);
+  padding: 14px;
+}
+
+.status-grid div {
+  backdrop-filter: blur(18px);
+  padding: 10px 12px;
+}
+
+.status-grid span {
+  display: block;
+  color: rgba(225, 240, 244, 0.58);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.status-grid strong {
+  display: block;
+  margin-top: 2px;
+  color: var(--text-main);
+  font-size: 1.18rem;
+}
+
+.guess-card p {
+  margin-bottom: 0;
+  color: var(--text-muted);
+}
+
+.guess-form {
+  display: grid;
+  gap: 14px;
+}
+
+.guess-card {
+  display: grid;
+  gap: 12px;
+}
+
+.map-card {
+  transition:
+    transform 180ms ease,
+    background 180ms ease;
+}
+
+.guess-shell:has(.map-card:hover),
+.guess-shell:has(.map-card:focus-within) {
+  width: min(720px, calc(100vw - 44px));
+}
+
+.guess-card-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.guess-card-header h2 {
+  margin-bottom: 0;
+}
+
+.guess-card-header span {
+  color: rgba(225, 240, 244, 0.58);
+  font-size: 0.82rem;
+  font-weight: 750;
+  text-align: right;
+}
+
+.guess-map {
+  overflow: hidden;
+  width: 100%;
+  height: 260px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  background: #dfe7de;
+  transition:
+    height 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.guess-map .leaflet-container {
+  font-family: inherit;
+}
+
+.guess-map .leaflet-control-zoom {
+  display: none;
+}
+
+.map-card:hover,
+.map-card:focus-within {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.map-card:hover .guess-map,
+.map-card:focus-within .guess-map {
+  height: min(520px, calc(100vh - 260px));
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.32);
+}
+
+.year-guess-control {
+  display: grid;
+  gap: 14px;
+}
+
+.year-guess-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.year-guess-header label {
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.year-guess-header output {
+  border-radius: 999px;
+  border: 1px solid rgba(126, 231, 209, 0.28);
+  background: rgba(126, 231, 209, 0.12);
+  color: #cffff4;
+  font-size: 1.08rem;
+  font-weight: 900;
+  line-height: 1;
+  padding: 8px 12px;
+}
+
+.year-wheel-trigger {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, rgba(126, 231, 209, 0.28), rgba(255, 255, 255, 0.08) 62%),
+    rgba(255, 255, 255, 0.06);
+  color: var(--text-main);
+  padding: 10px 12px;
+}
+
+.year-wheel-trigger span {
+  color: rgba(225, 240, 244, 0.56);
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.year-wheel-trigger strong {
+  justify-self: center;
+  color: #cffff4;
+  font-size: 1.45rem;
+}
+
+.year-wheel-trigger:disabled {
+  opacity: 0.56;
+}
+
+.year-wheel-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(5, 7, 11, 0.94), rgba(5, 7, 11, 0.68)),
+    linear-gradient(0deg, rgba(5, 7, 11, 0.95), rgba(5, 7, 11, 0.38)),
+    url("/events/mexico-86-placeholder.jpg") center / cover;
+  color: var(--text-main);
+  padding: 28px;
+}
+
+.year-wheel-overlay::before {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 42px 42px;
+  content: "";
+  pointer-events: none;
+}
+
+.year-wheel-topbar,
+.year-wheel-boundaries,
+.year-wheel-scroll,
+.year-wheel-indicator {
+  position: relative;
+  z-index: 1;
+}
+
+.year-wheel-topbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.year-wheel-topbar h2 {
+  margin: 0;
+  font-size: clamp(3rem, 11vw, 8rem);
+  line-height: 0.9;
+}
+
+.year-wheel-boundaries {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 32px;
+  color: rgba(225, 240, 244, 0.58);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.year-wheel-scroll {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-padding-inline: 45vw;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding: 10vh 45vw 18vh;
+}
+
+.year-wheel-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.year-wheel-item {
+  flex: 0 0 auto;
+  min-width: 96px;
+  min-height: 132px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(225, 240, 244, 0.66);
+  font-size: 1.24rem;
+  font-weight: 900;
+  scroll-snap-align: center;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.year-wheel-item:nth-child(5n + 1) {
+  min-height: 170px;
+}
+
+.year-wheel-item.is-selected {
+  border-color: rgba(126, 231, 209, 0.72);
+  background: rgba(126, 231, 209, 0.18);
+  color: #cffff4;
+  transform: translateY(-10px) scale(1.08);
+}
+
+.year-wheel-indicator {
+  position: absolute;
+  top: 38%;
+  bottom: 13%;
+  left: 50%;
+  width: 2px;
+  border-radius: 999px;
+  background: linear-gradient(transparent, rgba(126, 231, 209, 0.9), transparent);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.year-slider-shell {
+  display: grid;
+  gap: 9px;
+}
+
+.year-slider-shell input[type="range"] {
+  width: 100%;
+  min-height: 32px;
+  appearance: none;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+}
+
+.year-slider-shell input[type="range"]::-webkit-slider-runnable-track {
+  height: 10px;
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      90deg,
+      #7ee7d1 0%,
+      #7ee7d1 var(--year-progress),
+      rgba(255, 255, 255, 0.16) var(--year-progress),
+      rgba(255, 255, 255, 0.16) 100%
+    );
+}
+
+.year-slider-shell input[type="range"]::-moz-range-track {
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.year-slider-shell input[type="range"]::-moz-range-progress {
+  height: 10px;
+  border-radius: 999px;
+  background: #7ee7d1;
+}
+
+.year-slider-shell input[type="range"]::-webkit-slider-thumb {
+  width: 30px;
+  height: 30px;
+  appearance: none;
+  border: 4px solid #ffffff;
+  border-radius: 999px;
+  background: #ff5f7d;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.38);
+  margin-top: -10px;
+}
+
+.year-slider-shell input[type="range"]::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border: 4px solid #ffffff;
+  border-radius: 999px;
+  background: #ff5f7d;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.38);
+}
+
+.year-slider-shell input[type="range"]:focus-visible {
+  outline: 3px solid rgba(126, 231, 209, 0.32);
+  outline-offset: 5px;
+}
+
+.year-slider-scale {
+  display: flex;
+  justify-content: space-between;
+  color: rgba(225, 240, 244, 0.58);
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.guess-marker {
+  display: grid;
+  place-items: center;
+}
+
+.guess-marker span {
+  position: relative;
+  display: block;
+  width: 25px;
+  height: 25px;
+  border: 3px solid #ffffff;
+  border-radius: 50% 50% 50% 0;
+  background: #ff5f7d;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.42);
+  transform: rotate(-45deg);
+}
+
+.guess-marker span::after {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #ffffff;
+  content: "";
+}
+
+.correct-marker span {
+  background: #35c9a8;
+}
+
+.submitted-guess {
+  display: grid;
+  gap: 3px;
+  border: 1px solid rgba(126, 231, 209, 0.22);
+  border-radius: 8px;
+  background: rgba(126, 231, 209, 0.08);
+  color: var(--text-main);
+  padding: 12px;
+}
+
+.submitted-guess-warning {
+  border-color: rgba(181, 94, 35, 0.24);
+  background: rgba(181, 94, 35, 0.1);
+}
+
+.submitted-guess span {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+}
+
+.result-panel {
+  gap: 10px;
+}
+
+.round-result-overlay {
+  position: absolute;
+  bottom: 22px;
+  left: 22px;
+  z-index: 7;
+  width: min(620px, calc(100vw - 448px));
+  max-height: calc(100vh - 118px);
+  overflow: auto;
+  pointer-events: none;
+}
+
+.round-result-card {
+  display: grid;
+  gap: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  background:
+    linear-gradient(140deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.045)),
+    rgba(7, 12, 19, 0.58);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.36);
+  backdrop-filter: blur(26px) saturate(140%);
+  color: var(--text-main);
+  padding: 18px;
+  pointer-events: auto;
+}
+
+.round-result-card .eyebrow {
+  margin-bottom: 4px;
+}
+
+.round-result-card h2 {
+  margin-bottom: 0;
+  font-size: clamp(1.4rem, 3vw, 2.1rem);
+  line-height: 1.05;
+}
+
+.round-result-card > span,
+.answer-row span {
+  color: var(--text-muted);
+  font-size: 0.94rem;
+}
+
+.round-result-card > p {
+  margin: 0;
+  color: rgba(244, 251, 255, 0.82);
+}
+
+.answer-row {
+  display: grid;
+  gap: 5px;
+}
+
+.result-panel p {
+  margin: 0;
+  color: rgba(244, 251, 255, 0.82);
+  font-size: 0.92rem;
+}
+
+.result-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.result-stats div {
+  display: grid;
+  gap: 2px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 8px;
+}
+
+.result-stats span {
+  color: rgba(225, 240, 244, 0.58);
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.result-stats strong {
+  color: var(--text-main);
+  font-size: 0.9rem;
+}
+
+.metadata-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.metadata-list div {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  padding-bottom: 8px;
+}
+
+.metadata-list dt {
+  color: var(--text-muted);
+  font-weight: 750;
+}
+
+.metadata-list dd {
+  margin: 0;
+  text-align: right;
+}
+
+.final-screen {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  gap: 22px;
+  min-height: 100vh;
+  background:
+    linear-gradient(90deg, rgba(5, 7, 11, 0.88), rgba(5, 7, 11, 0.48)),
+    linear-gradient(0deg, rgba(5, 7, 11, 0.9), rgba(5, 7, 11, 0.3) 62%),
+    url("/events/mexico-86-placeholder.jpg") center / cover;
+  color: var(--text-main);
+  padding: 42px;
+}
+
+.final-hero {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 8px;
+  align-content: end;
+  min-height: 220px;
+}
+
+.final-hero h1 {
+  margin-bottom: 0;
+  font-size: clamp(3rem, 10vw, 7rem);
+}
+
+.final-hero p:not(.eyebrow) {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+}
+
+.final-summary-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.summary-metric,
+.round-summary-item {
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.045)),
+    rgba(8, 13, 20, 0.54);
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(22px) saturate(130%);
+  padding: 16px;
+}
+
+.summary-metric {
+  display: grid;
+  gap: 5px;
+}
+
+.round-summary-item > div:first-child,
+.round-summary-metrics {
+  min-width: 0;
+}
+
+.summary-metric span,
+.round-summary-item span {
+  color: rgba(225, 240, 244, 0.58);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.summary-metric strong {
+  color: var(--text-main);
+  font-size: 1.35rem;
+}
+
+.summary-metric p,
+.round-summary-item p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+}
+
+.round-summary-list {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 10px;
+}
+
+.round-summary-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+}
+
+.round-summary-item strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--text-main);
+  font-size: 1.08rem;
+}
+
+.round-summary-metrics {
+  display: grid;
+  grid-template-columns: 120px 110px 90px;
+  align-items: center;
+  gap: 10px;
+  text-align: right;
+}
+
+.round-summary-metrics strong {
+  margin-top: 0;
+  color: var(--accent);
+}
+
+.final-actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+@media (max-width: 900px) {
+  .start-screen {
+    grid-template-columns: 1fr;
+    align-content: center;
+    padding: 28px;
+  }
+
+  .panorama-viewer-shell,
+  .event-image-shell,
+  .panorama-missing {
+    min-height: 100vh;
+  }
+
+  .round-result-overlay {
+    right: 22px;
+    width: auto;
+  }
+
+  .final-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .start-screen {
+    padding: 16px;
+  }
+
+  .field-grid,
+  .status-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .round-header {
+    align-items: flex-start;
+    top: 12px;
+    right: 12px;
+    left: 12px;
+  }
+
+  .status-grid {
+    top: 12px;
+    right: 72px;
+    grid-template-columns: repeat(2, 62px);
+    gap: 6px;
+  }
+
+  .round-header .secondary-action {
+    top: 12px;
+    right: 12px;
+  }
+
+  .status-grid div {
+    padding: 8px;
+  }
+
+  .status-grid span {
+    font-size: 0.64rem;
+  }
+
+  .status-grid strong {
+    font-size: 0.96rem;
+  }
+
+  .panorama-viewer-shell,
+  .event-image-shell,
+  .panorama-missing {
+    min-height: 100vh;
+  }
+
+  .setup-panel {
+    padding: 16px;
+  }
+
+  .guess-shell {
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
+    width: auto;
+    max-height: 48vh;
+    padding: 12px;
+  }
+
+  .guess-shell:has(.map-card:hover),
+  .guess-shell:has(.map-card:focus-within) {
+    width: auto;
+  }
+
+  .round-result-overlay {
+    top: 74px;
+    right: 10px;
+    bottom: auto;
+    left: 10px;
+    max-height: 38vh;
+  }
+
+  .round-result-card {
+    padding: 14px;
+  }
+
+  .guess-map {
+    height: 190px;
+  }
+
+  .map-card:hover .guess-map,
+  .map-card:focus-within .guess-map {
+    height: min(330px, 42vh);
+  }
+
+  .year-wheel-overlay {
+    padding: 18px 14px;
+  }
+
+  .year-wheel-scroll {
+    gap: 10px;
+    scroll-padding-inline: 42vw;
+    padding-inline: 42vw;
+  }
+
+  .year-wheel-item {
+    min-width: 78px;
+    min-height: 112px;
+    font-size: 1rem;
+  }
+
+  .guess-card-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .year-guess-header label {
+    font-size: 1.05rem;
+  }
+
+  .year-slider-scale span:nth-child(2),
+  .year-slider-scale span:nth-child(3) {
+    display: none;
+  }
+
+  .guess-card-header span {
+    text-align: left;
+  }
+
+  .result-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .final-screen {
+    padding: 22px 16px;
+  }
+
+  .final-hero {
+    min-height: 160px;
+  }
+
+  .final-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .round-summary-item,
+  .round-summary-metrics {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+}

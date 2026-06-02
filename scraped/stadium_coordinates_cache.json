@@ -1,0 +1,374 @@
+{
+  "Ahmad bin Ali Stadium": {
+    "lat": 25.32964,
+    "lng": 51.342273
+  },
+  "Al Bayt Stadium": {
+    "lat": 25.65222222,
+    "lng": 51.48777778
+  },
+  "Al Janoub Stadium": {
+    "lat": 25.15972222,
+    "lng": 51.57416667
+  },
+  "Al Thumama Stadium": {
+    "lat": 25.235278,
+    "lng": 51.532182
+  },
+  "Allianz Arena": {
+    "lat": 48.218775,
+    "lng": 11.62475278
+  },
+  "Arena AufSchalke": {
+    "lat": 51.55444444,
+    "lng": 7.0675
+  },
+  "Arena Corinthians": {
+    "lat": -23.54525,
+    "lng": -46.47427778
+  },
+  "Arena Fonte Nova": {
+    "lat": -12.97861111,
+    "lng": -38.50416667
+  },
+  "Arena Pantanal": {
+    "lat": null,
+    "lng": null
+  },
+  "Arena Pernambuco": {
+    "lat": -8.04055556,
+    "lng": -35.00833333
+  },
+  "Arena da Amazônia": {
+    "lat": -3.08305556,
+    "lng": -60.02805556
+  },
+  "Arena da Baixada": {
+    "lat": -25.44833333,
+    "lng": -49.27694444
+  },
+  "Arena das Dunas": {
+    "lat": -5.826936,
+    "lng": -35.212371
+  },
+  "Cape Town Stadium": {
+    "lat": null,
+    "lng": null
+  },
+  "Castelão (Ceará)": {
+    "lat": -3.80722222,
+    "lng": -38.5225
+  },
+  "Central Stadium (Yekaterinburg)": {
+    "lat": 56.8325,
+    "lng": 60.57361111
+  },
+  "Daegu Stadium": {
+    "lat": null,
+    "lng": null
+  },
+  "Daejeon World Cup Stadium": {
+    "lat": 36.36513889,
+    "lng": 127.32516667
+  },
+  "Denka Big Swan Stadium": {
+    "lat": 37.8825,
+    "lng": 139.05916667
+  },
+  "Education City Stadium": {
+    "lat": 25.3108,
+    "lng": 51.4244
+  },
+  "Ellis Park Stadium": {
+    "lat": -26.1975,
+    "lng": 28.06083333
+  },
+  "Estádio Beira-Rio": {
+    "lat": -30.06561389,
+    "lng": -51.23608611
+  },
+  "Estádio Nacional Mané Garrincha": {
+    "lat": -15.7835,
+    "lng": -47.89916389
+  },
+  "FNB Stadium": {
+    "lat": -26.23472222,
+    "lng": 27.98222222
+  },
+  "Fisht Olympic Stadium": {
+    "lat": 43.4022667,
+    "lng": 39.9561111
+  },
+  "Free State Stadium": {
+    "lat": -29.11722222,
+    "lng": 26.20888889
+  },
+  "Fritz-Walter-Stadion": {
+    "lat": null,
+    "lng": null
+  },
+  "Gwangju World Cup Stadium": {
+    "lat": 35.13366667,
+    "lng": 126.87486111
+  },
+  "Incheon Munhak Stadium": {
+    "lat": 37.43513889,
+    "lng": 126.69080556
+  },
+  "Jeju World Cup Stadium": {
+    "lat": 33.24613889,
+    "lng": 126.50920556
+  },
+  "Jeonju World Cup Stadium": {
+    "lat": 35.86811111,
+    "lng": 127.06444444
+  },
+  "Kaliningrad Stadium": {
+    "lat": 54.69805556,
+    "lng": 20.53388889
+  },
+  "Kashima Soccer Stadium": {
+    "lat": 35.9917,
+    "lng": 140.6405
+  },
+  "Khalifa International Stadium": {
+    "lat": 25.26361111,
+    "lng": 51.44805556
+  },
+  "Krestovsky Stadium": {
+    "lat": 59.973,
+    "lng": 30.2205
+  },
+  "Loftus Versfeld Stadium": {
+    "lat": -25.75333333,
+    "lng": 28.22277778
+  },
+  "Lusail Stadium": {
+    "lat": 25.42086111,
+    "lng": 51.49038889
+  },
+  "Luzhniki Stadium": {
+    "lat": 55.7158,
+    "lng": 37.5536
+  },
+  "Maracanã Stadium": {
+    "lat": -22.91216667,
+    "lng": -43.23016389
+  },
+  "Mbombela Stadium": {
+    "lat": -25.461,
+    "lng": 30.929
+  },
+  "Mineirão": {
+    "lat": -19.86583333,
+    "lng": -43.97083333
+  },
+  "Miyagi Stadium": {
+    "lat": 38.3354,
+    "lng": 140.9504
+  },
+  "Mordovia Arena": {
+    "lat": 54.18277778,
+    "lng": 45.20138889
+  },
+  "Moses Mabhida Stadium": {
+    "lat": -29.829,
+    "lng": 31.0303
+  },
+  "Nagai Stadium": {
+    "lat": 34.61411944,
+    "lng": 135.51845
+  },
+  "Ak Bars Arena": {
+    "lat": 55.82111111,
+    "lng": 49.16083333
+  },
+  "Busan Asiad Main Stadium": {
+    "lat": 35.19,
+    "lng": 129.05822222
+  },
+  "MHPArena": {
+    "lat": 48.79222222,
+    "lng": 9.23194444
+  },
+  "Nissan Stadium (Yokohama)": {
+    "lat": 35.51004,
+    "lng": 139.60625
+  },
+  "Noevir Stadium Kobe": {
+    "lat": 34.65666667,
+    "lng": 135.16888889
+  },
+  "Kobe Wing Stadium": {
+    "lat": 34.65666667,
+    "lng": 135.16888889
+  },
+  "Busan Asiad Stadium": {
+    "lat": 35.19,
+    "lng": 129.05822222
+  },
+  "International Stadium Yokohama": {
+    "lat": 35.51004,
+    "lng": 139.60625
+  },
+  "Kazan Arena": {
+    "lat": 55.82111111,
+    "lng": 49.16083333
+  },
+  "Mercedes-Benz Arena (Stuttgart)": {
+    "lat": 48.79222222,
+    "lng": 9.23194444
+  },
+  "Nelson Mandela Bay Stadium": {
+    "lat": -33.93777778,
+    "lng": 25.59888889
+  },
+  "Niedersachsenstadion": {
+    "lat": 52.36,
+    "lng": 9.73111111
+  },
+  "Nizhny Novgorod Stadium": {
+    "lat": 56.3375,
+    "lng": 43.96333333
+  },
+  "Nuremberg": {
+    "lat": 49.45388889,
+    "lng": 11.0775
+  },
+  "Olympiastadion (Berlin)": {
+    "lat": 52.51472222,
+    "lng": 13.23944444
+  },
+  "Parc des Princes": {
+    "lat": null,
+    "lng": null
+  },
+  "Peter Mokaba Stadium": {
+    "lat": -23.924689,
+    "lng": 29.468765
+  },
+  "Red Bull Arena (Leipzig)": {
+    "lat": 51.34583333,
+    "lng": 12.34833333
+  },
+  "RheinEnergieStadion": {
+    "lat": 50.93361111,
+    "lng": 6.875
+  },
+  "Rostov Arena": {
+    "lat": 47.20944444,
+    "lng": 39.73777778
+  },
+  "Royal Bafokeng Stadium": {
+    "lat": -25.5786,
+    "lng": 27.1607
+  },
+  "Saitama Stadium 2002": {
+    "lat": 35.9031,
+    "lng": 139.7175
+  },
+  "Sapporo Dome": {
+    "lat": 43.0152,
+    "lng": 141.4098
+  },
+  "Seoul World Cup Stadium": {
+    "lat": 37.56822222,
+    "lng": 126.89736111
+  },
+  "Shizuoka Stadium": {
+    "lat": 34.74333333,
+    "lng": 137.97055556
+  },
+  "Stade Bollaert-Delelis": {
+    "lat": 50.43277778,
+    "lng": 2.815
+  },
+  "Stade Chaban-Delmas": {
+    "lat": 44.82916667,
+    "lng": -0.59777778
+  },
+  "Stade Geoffroy-Guichard": {
+    "lat": 45.46083333,
+    "lng": 4.39027778
+  },
+  "Stade Vélodrome": {
+    "lat": 43.26972222,
+    "lng": 5.39583333
+  },
+  "Stade de France": {
+    "lat": 48.9244,
+    "lng": 2.36
+  },
+  "Stade de Gerland": {
+    "lat": 45.72388889,
+    "lng": 4.83222222
+  },
+  "Stade de la Beaujoire": {
+    "lat": null,
+    "lng": null
+  },
+  "Stade de la Mosson": {
+    "lat": 43.62222222,
+    "lng": 3.81194444
+  },
+  "Stadium 974": {
+    "lat": 25.29,
+    "lng": 51.565
+  },
+  "Suwon World Cup Stadium": {
+    "lat": 37.28627778,
+    "lng": 127.03688889
+  },
+  "Ulsan Munsu Football Stadium": {
+    "lat": 35.53527778,
+    "lng": 129.25944444
+  },
+  "Volgograd Arena": {
+    "lat": 48.73444444,
+    "lng": 44.54861111
+  },
+  "Volksparkstadion": {
+    "lat": null,
+    "lng": null
+  },
+  "Waldstadion (Frankfurt)": {
+    "lat": 50.068056,
+    "lng": 8.645806
+  },
+  "Westfalenstadion": {
+    "lat": 51.4925,
+    "lng": 7.45166667
+  },
+  "Crasus Dome Oita": {
+    "lat": 33.20055556,
+    "lng": 131.6575
+  },
+  "Lukoil Arena": {
+    "lat": 55.81786111,
+    "lng": 37.44025
+  },
+  "Solidarnost Samara Arena": {
+    "lat": 53.27777778,
+    "lng": 50.23722222
+  },
+  "Stadium de Toulouse": {
+    "lat": 43.58305556,
+    "lng": 1.43416667
+  },
+  "Stadium Municipal": {
+    "lat": 43.58305556,
+    "lng": 1.43416667
+  },
+  "Samara Arena": {
+    "lat": 53.27777778,
+    "lng": 50.23722222
+  },
+  "Showa Denko Dome Oita": {
+    "lat": 33.20055556,
+    "lng": 131.6575
+  },
+  "Otkritie Arena": {
+    "lat": 55.81786111,
+    "lng": 37.44025
+  }
+}
