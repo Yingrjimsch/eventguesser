@@ -1,5 +1,8 @@
 node_modules/
 dist/
+public/panoramas/
+scraped/
+scripts/
 .DS_Store
 *.local
 .env

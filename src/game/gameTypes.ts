@@ -1,14 +1,11 @@
 export type EventCategory = "soccer";
 
-export type EventMediaType = "panorama" | "image" | "audio";
+export type EventMediaType = "panorama";
 
 export type GuessField = "location" | "time";
 
 export type EventMedia = {
   panoramaUrl?: string;
-  sphericalImageUrl?: string;
-  imageUrl?: string;
-  audioUrl?: string;
 };
 
 export type GeoPoint = {

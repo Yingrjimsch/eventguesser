@@ -1,12 +1,17 @@
 {
-  "name": "eventguessr",
+  "name": "worldcup-guesser",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "worldcup:events": "python3 scripts/worldcup_pipeline.py build-events",
+    "worldcup:media": "python3 scripts/worldcup_pipeline.py discover-media",
+    "worldcup:prompts": "python3 scripts/worldcup_pipeline.py write-prompts",
+    "worldcup:generate": "python3 scripts/worldcup_pipeline.py generate-panoramas",
+    "worldcup:generate:priority": "bash scripts/generate_worldcup_priority_images.sh"
   },
   "dependencies": {
     "@photo-sphere-viewer/core": "^5.14.1",
@@ -17,7 +22,11 @@
     "leaflet": "^1.9.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "three": "^0.179.0",
     "typescript": "^5.8.0",
     "vite": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.184.1"
   }
 }

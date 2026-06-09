@@ -1,6 +1,10 @@
 import { useMemo, useState } from "react";
 import { soccerModule } from "../modules/soccer/soccerModule";
 import { soccerRounds } from "../modules/soccer/soccerRounds";
+import {
+  hasWorldCupPublicMedia,
+  worldCupPublicMediaCount,
+} from "../modules/soccer/worldCupPublicMedia";
 import type { EventRound, GameSettings, RoundGuess, RoundOutcome } from "../game/gameTypes";
 import { createInitialGameState, getCurrentRound } from "../game/gameState";
 import { calculateRoundScore, createTimeoutRoundScore } from "../game/scoring";
@@ -113,7 +117,7 @@ export function App() {
         <StartScreen
           availableModules={[soccerModule]}
           defaultSettings={settings}
-          maxRounds={soccerRounds.length}
+          maxRounds={worldCupPublicMediaCount}
           onStart={startGame}
         />
       ) : null}
@@ -123,7 +127,6 @@ export function App() {
           gameState={gameState}
           round={currentRound}
           outcome={outcomes.find((outcome) => outcome.roundId === currentRound.id)}
-          onExit={() => setScreen("start")}
           onNextRound={goToNextRound}
           onSubmitGuess={submitGuess}
           onTimeOut={timeOutRound}
@@ -144,7 +147,15 @@ export function App() {
 }
 
 function selectRandomRounds(rounds: EventRound[], roundCount: number) {
-  return [...rounds]
-    .sort(() => Math.random() - 0.5)
-    .slice(0, roundCount);
+  const mediaReadyRounds = rounds.filter((round) => hasWorldCupPublicMedia(round.id));
+  const remainingRounds = rounds.filter((round) => !hasWorldCupPublicMedia(round.id));
+
+  return [
+    ...shuffleRounds(mediaReadyRounds),
+    ...shuffleRounds(remainingRounds),
+  ].slice(0, roundCount);
+}
+
+function shuffleRounds(rounds: EventRound[]) {
+  return [...rounds].sort(() => Math.random() - 0.5);
 }

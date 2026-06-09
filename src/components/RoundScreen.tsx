@@ -6,7 +6,6 @@ type RoundScreenProps = {
   gameState: GameState;
   round: EventRound;
   outcome?: RoundOutcome;
-  onExit: () => void;
   onNextRound: () => void;
   onSubmitGuess: (guess: Omit<RoundGuess, "secondsUsed">) => void;
   onTimeOut: (roundId: string) => void;
@@ -16,7 +15,6 @@ export function RoundScreen({
   gameState,
   round,
   outcome,
-  onExit,
   onNextRound,
   onSubmitGuess,
   onTimeOut,
@@ -27,14 +25,11 @@ export function RoundScreen({
     <section className="round-screen">
       <header className="round-header">
         <div>
-          <p className="eyebrow">Soccer round</p>
+          <p className="eyebrow">World Cup match</p>
           <h1>
             Round {gameState.currentRoundIndex + 1} of {gameState.totalRounds}
           </h1>
         </div>
-        <button className="secondary-action" type="button" onClick={onExit}>
-          Exit
-        </button>
       </header>
 
       <div className="round-layout">

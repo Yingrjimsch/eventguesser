@@ -37,7 +37,7 @@ export function FinalResultsScreen({
   return (
     <section className="final-screen">
       <header className="final-hero">
-        <p className="eyebrow">Game complete</p>
+        <p className="eyebrow">World Cup run complete</p>
         <h1>{score.toLocaleString()} points</h1>
         <p>
           {completedOutcomes.length} of {rounds.length} rounds completed.

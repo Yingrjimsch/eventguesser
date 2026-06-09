@@ -1,8 +1,6 @@
 import type { EventRound } from "../../game/gameTypes";
-import worldCupEventImages from "../../data/worldCupEventImages.json";
 import worldCupRoundData from "../../data/worldCupRoundData.json";
-
-const matchPhotoPlaceholder = "/events/mexico-86-placeholder.jpg";
+import { getWorldCupPublicMedia } from "./worldCupPublicMedia";
 
 export type SoccerMetadata = {
   competition?: string;
@@ -22,17 +20,6 @@ export type SoccerMetadata = {
 
 type WorldCupRoundDataPayload = {
   rounds: WorldCupRound[];
-};
-
-type WorldCupEventImagesPayload = {
-  events: Record<
-    string,
-    {
-      images?: Array<{
-        imageUrl?: string;
-      }>;
-    }
-  >;
 };
 
 type WorldCupRound = {
@@ -59,7 +46,6 @@ type WorldCupRound = {
 };
 
 const worldCupData = worldCupRoundData as WorldCupRoundDataPayload;
-const worldCupImages = worldCupEventImages as WorldCupEventImagesPayload;
 
 export const soccerRounds: EventRound<SoccerMetadata>[] = worldCupData.rounds.map(
   (round) => ({
@@ -67,7 +53,7 @@ export const soccerRounds: EventRound<SoccerMetadata>[] = worldCupData.rounds.ma
     category: "soccer",
     title: round.title,
     media: {
-      sphericalImageUrl: getSphericalImageUrl(round.id),
+      ...getWorldCupPublicMedia(round.id),
     },
     answer: {
       location: {
@@ -93,8 +79,3 @@ export const soccerRounds: EventRound<SoccerMetadata>[] = worldCupData.rounds.ma
     },
   }),
 );
-
-function getSphericalImageUrl(roundId: string) {
-  return worldCupImages.events[roundId]?.images?.find((image) => image.imageUrl)?.imageUrl
-    ?? matchPhotoPlaceholder;
-}

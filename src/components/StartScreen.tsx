@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { EventCategory, GameModule, GameSettings } from "../game/gameTypes";
+import { InteractiveWorldCupBall } from "./InteractiveWorldCupBall";
 
 type StartScreenProps = {
   availableModules: GameModule[];
@@ -9,6 +10,9 @@ type StartScreenProps = {
 };
 
 const timerOptions = [60, 90, 120];
+const triondaModelUrl =
+  import.meta.env.VITE_TRIONDA_MODEL_URL ||
+  "/models/trionda/source/Trionda%202026.glb";
 
 export function StartScreen({
   availableModules,
@@ -27,13 +31,15 @@ export function StartScreen({
   return (
     <section className="start-screen">
       <div className="start-copy">
-        <p className="eyebrow">EventGuessr</p>
-        <h1>Guess the place. Guess the date.</h1>
+        <p className="eyebrow">World Cup Guesser</p>
+        <h1>Guess the match. Find the stadium.</h1>
         <p>
-          Explore event scenes, place your guess, and score by getting close in
-          both location and time.
+          Drop into World Cup scenes, place the stadium, and scroll the timeline
+          to the tournament year.
         </p>
       </div>
+
+      <InteractiveWorldCupBall modelUrl={triondaModelUrl} />
 
       <form
         className="setup-panel"
@@ -47,7 +53,7 @@ export function StartScreen({
         }}
       >
         <div className="field-group">
-          <label htmlFor="category">Category</label>
+          <label htmlFor="category">Edition</label>
           <select
             id="category"
             value={category}
@@ -64,7 +70,7 @@ export function StartScreen({
 
         <div className="field-grid">
           <div className="field-group">
-            <label htmlFor="rounds">Rounds</label>
+            <label htmlFor="rounds">Matches</label>
             <input
               id="rounds"
               max={maxRounds}
@@ -78,7 +84,7 @@ export function StartScreen({
           </div>
 
           <div className="field-group">
-            <label htmlFor="timer">Timer</label>
+            <label htmlFor="timer">Clock</label>
             <select
               id="timer"
               value={roundDurationSeconds}
@@ -94,7 +100,7 @@ export function StartScreen({
         </div>
 
         <button className="primary-action" type="submit">
-          Start game
+          Start World Cup run
         </button>
       </form>
     </section>

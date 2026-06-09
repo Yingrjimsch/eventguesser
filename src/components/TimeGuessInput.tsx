@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
+import type { PointerEvent } from "react";
 
-const minYear = 1950;
-const maxYear = 2026;
-const defaultYear = 2000;
+const minYear = 1930;
+const maxYear = 2022;
+const defaultYear = 1994;
 
 type TimeGuessInputProps = {
   value: string;
@@ -12,19 +13,22 @@ type TimeGuessInputProps = {
 
 export function TimeGuessInput({ value, disabled = false, onChange }: TimeGuessInputProps) {
   const selectedYear = parseYear(value) ?? defaultYear;
-  const [isOpen, setIsOpen] = useState(false);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const frameRef = useRef<number | null>(null);
+  const dragRef = useRef({
+    isDragging: false,
+    moved: false,
+    pointerId: 0,
+    scrollLeft: 0,
+    x: 0,
+  });
+  const suppressClickRef = useRef(false);
   const years = useMemo(
     () => Array.from({ length: maxYear - minYear + 1 }, (_, index) => minYear + index),
     [],
   );
 
   useEffect(() => {
-    if (!isOpen) {
-      return;
-    }
-
     const selectedItem = scrollRef.current?.querySelector<HTMLElement>(
       `[data-year="${selectedYear}"]`,
     );
@@ -34,7 +38,7 @@ export function TimeGuessInput({ value, disabled = false, onChange }: TimeGuessI
       block: "nearest",
       inline: "center",
     });
-  }, [isOpen, selectedYear]);
+  }, [selectedYear]);
 
   useEffect(() => {
     return () => {
@@ -45,7 +49,76 @@ export function TimeGuessInput({ value, disabled = false, onChange }: TimeGuessI
   }, []);
 
   function pickYear(year: number) {
+    if (suppressClickRef.current) {
+      suppressClickRef.current = false;
+      return;
+    }
+
     onChange(String(year));
+
+    scrollRef.current?.querySelector<HTMLElement>(`[data-year="${year}"]`)?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "center",
+    });
+  }
+
+  function startDrag(event: PointerEvent<HTMLDivElement>) {
+    if (disabled || event.pointerType === "touch") {
+      return;
+    }
+
+    const scrollElement = scrollRef.current;
+
+    if (!scrollElement) {
+      return;
+    }
+
+    dragRef.current = {
+      isDragging: true,
+      moved: false,
+      pointerId: event.pointerId,
+      scrollLeft: scrollElement.scrollLeft,
+      x: event.clientX,
+    };
+    scrollElement.setPointerCapture(event.pointerId);
+  }
+
+  function moveDrag(event: PointerEvent<HTMLDivElement>) {
+    const drag = dragRef.current;
+    const scrollElement = scrollRef.current;
+
+    if (!drag.isDragging || !scrollElement || event.pointerId !== drag.pointerId) {
+      return;
+    }
+
+    const delta = event.clientX - drag.x;
+
+    if (Math.abs(delta) > 4) {
+      drag.moved = true;
+      suppressClickRef.current = true;
+    }
+
+    scrollElement.scrollLeft = drag.scrollLeft - delta;
+  }
+
+  function endDrag(event: PointerEvent<HTMLDivElement>) {
+    const drag = dragRef.current;
+    const scrollElement = scrollRef.current;
+
+    if (!drag.isDragging || event.pointerId !== drag.pointerId) {
+      return;
+    }
+
+    drag.isDragging = false;
+
+    if (scrollElement?.hasPointerCapture(event.pointerId)) {
+      scrollElement.releasePointerCapture(event.pointerId);
+    }
+
+    if (drag.moved) {
+      syncYearFromScroll();
+    }
   }
 
   function syncYearFromScroll() {
@@ -92,56 +165,40 @@ export function TimeGuessInput({ value, disabled = false, onChange }: TimeGuessI
         <output htmlFor="time-guess">{selectedYear}</output>
       </div>
 
-      <button
-        className="year-wheel-trigger"
-        disabled={disabled}
-        id="time-guess"
-        type="button"
-        onClick={() => setIsOpen(true)}
-      >
-        <span>{minYear}</span>
-        <strong>{selectedYear}</strong>
-        <span>{maxYear}</span>
-      </button>
-
-      {isOpen ? (
-        <div className="year-wheel-overlay" role="dialog" aria-modal="true">
-          <div className="year-wheel-topbar">
-            <div>
-              <p className="eyebrow">Timeline</p>
-              <h2>{selectedYear}</h2>
-            </div>
-            <button className="secondary-action" type="button" onClick={() => setIsOpen(false)}>
-              Done
-            </button>
-          </div>
-
-          <div className="year-wheel-boundaries" aria-hidden="true">
-            <span>{minYear}</span>
-            <span>{maxYear}</span>
-          </div>
-
-          <div
-            className="year-wheel-scroll"
-            ref={scrollRef}
-            onScroll={syncYearFromScroll}
-          >
-            {years.map((year) => (
-              <button
-                className={year === selectedYear ? "year-wheel-item is-selected" : "year-wheel-item"}
-                data-year={year}
-                key={year}
-                type="button"
-                onClick={() => pickYear(year)}
-              >
-                {year}
-              </button>
-            ))}
-          </div>
-
-          <div className="year-wheel-indicator" aria-hidden="true" />
+      <div className="year-wheel-frame">
+        <div className="year-wheel-boundaries" aria-hidden="true">
+          <span>{minYear}</span>
+          <span>{maxYear}</span>
         </div>
-      ) : null}
+
+        <div
+          className="year-wheel-scroll"
+          id="time-guess"
+          ref={scrollRef}
+          onScroll={disabled ? undefined : syncYearFromScroll}
+          onPointerDown={startDrag}
+          onPointerMove={moveDrag}
+          onPointerUp={endDrag}
+          onPointerCancel={endDrag}
+          onPointerLeave={endDrag}
+          aria-label="Guess year"
+        >
+          {years.map((year) => (
+            <button
+              className={year === selectedYear ? "year-wheel-item is-selected" : "year-wheel-item"}
+              data-year={year}
+              disabled={disabled}
+              key={year}
+              type="button"
+              onClick={() => pickYear(year)}
+            >
+              {year}
+            </button>
+          ))}
+        </div>
+
+        <div className="year-wheel-indicator" aria-hidden="true" />
+      </div>
     </div>
   );
 }

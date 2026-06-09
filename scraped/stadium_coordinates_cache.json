@@ -32,8 +32,8 @@
     "lng": -38.50416667
   },
   "Arena Pantanal": {
-    "lat": null,
-    "lng": null
+    "lat": -15.6031,
+    "lng": -56.1206
   },
   "Arena Pernambuco": {
     "lat": -8.04055556,
@@ -52,8 +52,8 @@
     "lng": -35.212371
   },
   "Cape Town Stadium": {
-    "lat": null,
-    "lng": null
+    "lat": -33.903469,
+    "lng": 18.411102
   },
   "Castelão (Ceará)": {
     "lat": -3.80722222,
@@ -64,8 +64,8 @@
     "lng": 60.57361111
   },
   "Daegu Stadium": {
-    "lat": null,
-    "lng": null
+    "lat": 35.8245,
+    "lng": 128.6875
   },
   "Daejeon World Cup Stadium": {
     "lat": 36.36513889,
@@ -104,8 +104,8 @@
     "lng": 26.20888889
   },
   "Fritz-Walter-Stadion": {
-    "lat": null,
-    "lng": null
+    "lat": 49.4342,
+    "lng": 7.7725
   },
   "Gwangju World Cup Stadium": {
     "lat": 35.13366667,
@@ -240,8 +240,8 @@
     "lng": 13.23944444
   },
   "Parc des Princes": {
-    "lat": null,
-    "lng": null
+    "lat": 48.841465,
+    "lng": 2.252616
   },
   "Peter Mokaba Stadium": {
     "lat": -23.924689,
@@ -304,8 +304,8 @@
     "lng": 4.83222222
   },
   "Stade de la Beaujoire": {
-    "lat": null,
-    "lng": null
+    "lat": 47.2534,
+    "lng": -1.5219
   },
   "Stade de la Mosson": {
     "lat": 43.62222222,
@@ -328,8 +328,8 @@
     "lng": 44.54861111
   },
   "Volksparkstadion": {
-    "lat": null,
-    "lng": null
+    "lat": 53.58722,
+    "lng": 9.89861
   },
   "Waldstadion (Frankfurt)": {
     "lat": 50.068056,
@@ -370,5 +370,529 @@
   "Otkritie Arena": {
     "lat": 55.81786111,
     "lng": 37.44025
+  },
+  "Daegu World Cup Stadium": {
+    "lat": 35.8245,
+    "lng": 128.6875
+  },
+  "Arosvallen": {
+    "lat": 59.62055556,
+    "lng": 16.54111111
+  },
+  "Ayresome Park": {
+    "lat": 54.56416667,
+    "lng": -1.24694444
+  },
+  "Camp Nou": {
+    "lat": 41.3808,
+    "lng": 2.1228
+  },
+  "Charmilles Stadium": {
+    "lat": 46.2091,
+    "lng": 6.1182
+  },
+  "Cornaredo Stadium": {
+    "lat": 46.02361111,
+    "lng": 8.96166667
+  },
+  "Cotton Bowl (stadium)": {
+    "lat": 32.77944444,
+    "lng": -96.75972222
+  },
+  "El Molinón": {
+    "lat": 43.53611111,
+    "lng": -5.63722222
+  },
+  "Estadio Azteca": {
+    "lat": 19.30305556,
+    "lng": -99.15055556
+  },
+  "Estadio Benito Villamarín": {
+    "lat": 37.35638889,
+    "lng": -5.98138889
+  },
+  "Estadio Carlos Tartiere (1932)": {
+    "lat": null,
+    "lng": null
+  },
+  "Estadio Centenario": {
+    "lat": null,
+    "lng": null
+  },
+  "Estadio Cuauhtémoc": {
+    "lat": 19.07805556,
+    "lng": -98.16444444
+  },
+  "Estadio El Teniente": {
+    "lat": -34.17777778,
+    "lng": -70.7375
+  },
+  "Estadio Gigante de Arroyito": {
+    "lat": -32.91399722,
+    "lng": -60.67456667
+  },
+  "Estadio Gran Parque Central": {
+    "lat": -34.884373,
+    "lng": -56.1588
+  },
+  "Estadio Jalisco": {
+    "lat": 20.705,
+    "lng": -103.32805556
+  },
+  "Estadio José María Minella": {
+    "lat": -38.01794444,
+    "lng": -57.58233333
+  },
+  "Estadio José Rico Pérez": {
+    "lat": 38.35722222,
+    "lng": -0.4925
+  },
+  "Estadio La Rosaleda": {
+    "lat": 36.7342,
+    "lng": -4.4266
+  },
+  "Estadio Malvinas Argentinas": {
+    "lat": -32.88972222,
+    "lng": -68.88
+  },
+  "Estadio Mario Alberto Kempes": {
+    "lat": -31.36895556,
+    "lng": -64.24624444
+  },
+  "Estadio Nacional Julio Martínez Prádanos": {
+    "lat": -33.46444444,
+    "lng": -70.61055556
+  },
+  "Estadio Nemesio Díez": {
+    "lat": 19.28722222,
+    "lng": -99.66666667
+  },
+  "Estadio Neza 86": {
+    "lat": 19.40583333,
+    "lng": -98.98694444
+  },
+  "Estadio Olímpico Universitario": {
+    "lat": 19.33194444,
+    "lng": -99.19222222
+  },
+  "Estadio Pocitos": {
+    "lat": -34.905,
+    "lng": -56.15611111
+  },
+  "Estadio Riazor": {
+    "lat": null,
+    "lng": null
+  },
+  "Estadio Sergio León Chávez": {
+    "lat": 20.6845,
+    "lng": -101.3563
+  },
+  "Estadio Tecnológico": {
+    "lat": 25.65225,
+    "lng": -100.286417
+  },
+  "Estadio Universitario (UANL)": {
+    "lat": 25.723,
+    "lng": -100.312
+  },
+  "Estádio Ilha do Retiro": {
+    "lat": -8.06277778,
+    "lng": -34.90277778
+  },
+  "Estádio Vila Capanema": {
+    "lat": -25.43944444,
+    "lng": -49.25583333
+  },
+  "Estádio dos Eucaliptos": {
+    "lat": -30.06166667,
+    "lng": -51.22722222
+  },
+  "Foxboro Stadium": {
+    "lat": 42.09277778,
+    "lng": -71.2675
+  },
+  "Giants Stadium": {
+    "lat": 40.81222222,
+    "lng": -74.07694444
+  },
+  "Goodison Park": {
+    "lat": 53.43888889,
+    "lng": -2.96638889
+  },
+  "Hardturm": {
+    "lat": 47.39305556,
+    "lng": 8.50472222
+  },
+  "Hillsborough Stadium": {
+    "lat": 53.41138889,
+    "lng": -1.50055556
+  },
+  "Balaídos Stadium": {
+    "lat": null,
+    "lng": null
+  },
+  "Camping World Stadium": {
+    "lat": 28.53888889,
+    "lng": -81.40277778
+  },
+  "Carlos Dittborn Stadium": {
+    "lat": -18.4875,
+    "lng": -70.29916667
+  },
+  "Coliseo GNP Seguros": {
+    "lat": 20.69388889,
+    "lng": -103.41611111
+  },
+  "Estadio Corregidora": {
+    "lat": 20.57777778,
+    "lng": -100.36638889
+  },
+  "Estadio Independencia": {
+    "lat": null,
+    "lng": null
+  },
+  "Estadio León": {
+    "lat": 21.11555556,
+    "lng": -101.65777778
+  },
+  "Estadio Martínez Valero": {
+    "lat": 38.26694444,
+    "lng": -0.66333333
+  },
+  "Estadio Monumental (Buenos Aires)": {
+    "lat": -34.54527778,
+    "lng": -58.44972222
+  },
+  "Eyravallen": {
+    "lat": 59.26611111,
+    "lng": 15.22305556
+  },
+  "José Zorrilla Stadium": {
+    "lat": null,
+    "lng": null
+  },
+  "Sausalito Stadium": {
+    "lat": -33.01444444,
+    "lng": -71.535
+  },
+  "Estadio La Corregidora": {
+    "lat": 20.57777778,
+    "lng": -100.36638889
+  },
+  "Citrus Bowl (stadium)": {
+    "lat": 28.53888889,
+    "lng": -81.40277778
+  },
+  "Estadio Nou Camp": {
+    "lat": 21.11555556,
+    "lng": -101.65777778
+  },
+  "Behrn Arena": {
+    "lat": 59.26611111,
+    "lng": 15.22305556
+  },
+  "Estádio Independência": {
+    "lat": null,
+    "lng": null
+  },
+  "Estadio Monumental Antonio Vespucio Liberti": {
+    "lat": -34.54527778,
+    "lng": -58.44972222
+  },
+  "Estadio Manuel Martínez Valero": {
+    "lat": 38.26694444,
+    "lng": -0.66333333
+  },
+  "Balaídos": {
+    "lat": null,
+    "lng": null
+  },
+  "Estadio José Zorrilla": {
+    "lat": null,
+    "lng": null
+  },
+  "Estadio Tres de Marzo": {
+    "lat": 20.69388889,
+    "lng": -103.41611111
+  },
+  "Estadio Sausalito": {
+    "lat": -33.01444444,
+    "lng": -71.535
+  },
+  "Estadio Carlos Dittborn": {
+    "lat": -18.4875,
+    "lng": -70.29916667
+  },
+  "Jernvallen": {
+    "lat": 60.60888889,
+    "lng": 16.77305556
+  },
+  "José Amalfitani Stadium": {
+    "lat": null,
+    "lng": null
+  },
+  "La Romareda": {
+    "lat": 41.63666667,
+    "lng": -0.90194444
+  },
+  "Malmö Stadion": {
+    "lat": 55.58611111,
+    "lng": 12.98916667
+  },
+  "Mestalla Stadium": {
+    "lat": null,
+    "lng": null
+  },
+  "Old Trafford": {
+    "lat": 53.46305556,
+    "lng": -2.29138889
+  },
+  "Olympia (Helsingborg)": {
+    "lat": 56.04944444,
+    "lng": 12.70694444
+  },
+  "Olympiastadion (Munich)": {
+    "lat": 48.17305556,
+    "lng": 11.54666667
+  },
+  "Pacaembu Stadium": {
+    "lat": -23.54863889,
+    "lng": -46.66511111
+  },
+  "Parkstadion": {
+    "lat": 51.55916667,
+    "lng": 7.06666667
+  },
+  "Pontiac Silverdome": {
+    "lat": 42.64583333,
+    "lng": -83.255
+  },
+  "Rheinstadion": {
+    "lat": 51.26027778,
+    "lng": 6.73416667
+  },
+  "Rimnersvallen": {
+    "lat": 58.35666667,
+    "lng": 11.95
+  },
+  "Robert F. Kennedy Memorial Stadium": {
+    "lat": 38.89,
+    "lng": -76.9719
+  },
+  "Roker Park": {
+    "lat": 54.9213,
+    "lng": -1.37548056
+  },
+  "Rose Bowl (stadium)": {
+    "lat": 34.161,
+    "lng": -118.168
+  },
+  "Ryavallen": {
+    "lat": 57.735724,
+    "lng": 12.934921
+  },
+  "Råsunda Stadium": {
+    "lat": 59.36277778,
+    "lng": 17.99638889
+  },
+  "San Mamés Stadium (1913)": {
+    "lat": 43.26350556,
+    "lng": -2.94839167
+  },
+  "San Siro": {
+    "lat": 45.47805556,
+    "lng": 9.12388889
+  },
+  "Sarrià Stadium": {
+    "lat": null,
+    "lng": null
+  },
+  "Soldier Field": {
+    "lat": 41.8623,
+    "lng": -87.6167
+  },
+  "St. Jakob Stadium": {
+    "lat": 47.54138889,
+    "lng": 7.62
+  },
+  "Stade Chapou": {
+    "lat": 43.60861111,
+    "lng": 1.41916667
+  },
+  "Stade Henri-Jooris": {
+    "lat": 50.6375,
+    "lng": 3.03611111
+  },
+  "Stade Jules Deschaseaux": {
+    "lat": 49.50194444,
+    "lng": 0.17111111
+  },
+  "Stade Olympique de la Pontaise": {
+    "lat": null,
+    "lng": null
+  },
+  "Stade de la Meinau": {
+    "lat": 48.56,
+    "lng": 7.755
+  },
+  "Stade du Fort Carré": {
+    "lat": 43.59083333,
+    "lng": 7.12555556
+  },
+  "Stadio Artemio Franchi": {
+    "lat": 43.78083333,
+    "lng": 11.28222222
+  },
+  "Stadio Friuli": {
+    "lat": 46.0816,
+    "lng": 13.2001
+  },
+  "Stadio Giuseppe Grezar": {
+    "lat": 45.62388889,
+    "lng": 13.79416667
+  },
+  "Stadio Luigi Ferraris": {
+    "lat": 44.41638889,
+    "lng": 8.9525
+  },
+  "Stadio Nazionale PNF": {
+    "lat": 41.92722222,
+    "lng": 12.47222222
+  },
+  "Stadio Olimpico": {
+    "lat": 41.93388889,
+    "lng": 12.45472222
+  },
+  "Stadio Olimpico Grande Torino": {
+    "lat": 45.04166667,
+    "lng": 7.65
+  },
+  "Stadio Renato Dall'Ara": {
+    "lat": 44.49222222,
+    "lng": 11.30972222
+  },
+  "Stadio Renzo Barbera": {
+    "lat": 38.15276667,
+    "lng": 13.342275
+  },
+  "Stadio San Nicola": {
+    "lat": 41.08473611,
+    "lng": 16.84007222
+  },
+  "Stadio Sant'Elia": {
+    "lat": 39.19939444,
+    "lng": 9.13495278
+  },
+  "Bernabéu (stadium)": {
+    "lat": 40.45306,
+    "lng": -3.68835
+  },
+  "Idrottsparken (Norrköping)": {
+    "lat": 58.58444444,
+    "lng": 16.17305556
+  },
+  "Ramón Sánchez-Pizjuán Stadium": {
+    "lat": 37.384,
+    "lng": -5.9705
+  },
+  "Stade Auguste-Delaune": {
+    "lat": 49.24666667,
+    "lng": 4.025
+  },
+  "Stade Yves-du-Manoir": {
+    "lat": 48.92944444,
+    "lng": 2.24805556
+  },
+  "Stadio Delle Alpi": {
+    "lat": 45.10956111,
+    "lng": 7.64126111
+  },
+  "Stadio Diego Armando Maradona": {
+    "lat": 40.828,
+    "lng": 14.193
+  },
+  "Stadio Marcantonio Bentegodi": {
+    "lat": 45.43527778,
+    "lng": 10.96861111
+  },
+  "Stadio Partenopeo": {
+    "lat": 40.85972222,
+    "lng": 14.29333333
+  },
+  "Stade Olympique Yves-du-Manoir": {
+    "lat": 48.92944444,
+    "lng": 2.24805556
+  },
+  "Stadio Artemio Franchi (Florence)": {
+    "lat": 43.78083333,
+    "lng": 11.28222222
+  },
+  "Stade Auguste Delaune": {
+    "lat": 49.24666667,
+    "lng": 4.025
+  },
+  "Stadio Giorgio Ascarelli": {
+    "lat": 40.85972222,
+    "lng": 14.29333333
+  },
+  "Stadio Marc'Antonio Bentegodi": {
+    "lat": 45.43527778,
+    "lng": 10.96861111
+  },
+  "Stadio San Paolo": {
+    "lat": 40.828,
+    "lng": 14.193
+  },
+  "Stadio delle Alpi": {
+    "lat": 45.10956111,
+    "lng": 7.64126111
+  },
+  "Ramón Sánchez Pizjuán Stadium": {
+    "lat": 37.384,
+    "lng": -5.9705
+  },
+  "Santiago Bernabéu Stadium": {
+    "lat": 40.45306,
+    "lng": -3.68835
+  },
+  "Nya Parken": {
+    "lat": 58.58444444,
+    "lng": 16.17305556
+  },
+  "Stanford Stadium": {
+    "lat": 37.43444444,
+    "lng": -122.16111111
+  },
+  "Tunavallen": {
+    "lat": 59.37055556,
+    "lng": 16.495
+  },
+  "Ullevi": {
+    "lat": 57.70583333,
+    "lng": 11.98722222
+  },
+  "Vicente Calderón Stadium": {
+    "lat": 40.40171944,
+    "lng": -3.72060556
+  },
+  "Villa Park": {
+    "lat": 52.50916667,
+    "lng": -1.88472222
+  },
+  "Wankdorf Stadium": {
+    "lat": 46.96277778,
+    "lng": 7.465
+  },
+  "Wembley Stadium (1923)": {
+    "lat": 51.55555556,
+    "lng": -0.27972222
+  },
+  "White City Stadium": {
+    "lat": 51.5136,
+    "lng": -0.2274
+  },
+  "Örjans Vall": {
+    "lat": 56.68416667,
+    "lng": 12.86638889
   }
 }

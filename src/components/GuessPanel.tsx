@@ -29,10 +29,12 @@ export function GuessPanel({
   );
   const [timeGuess, setTimeGuess] = useState(outcome?.guess?.guessedTime ?? "2000");
   const [remainingSeconds, setRemainingSeconds] = useState(roundDurationSeconds);
+  const [isGuessPanelOpen, setIsGuessPanelOpen] = useState(false);
 
   useEffect(() => {
     setLocationGuess(outcome?.guess?.guessedLocation ?? null);
     setTimeGuess(outcome?.guess?.guessedTime ?? "2000");
+    setIsGuessPanelOpen(false);
   }, [round.id, roundDurationSeconds, outcome]);
 
   useEffect(() => {
@@ -86,7 +88,6 @@ export function GuessPanel({
 
   return (
     <>
-      <aside className="guess-shell">
       <div className="status-grid">
         <div>
           <span>Timer</span>
@@ -96,6 +97,29 @@ export function GuessPanel({
           <span>Score</span>
           <strong>{score}</strong>
         </div>
+      </div>
+
+      <button
+        className="guess-toggle"
+        type="button"
+        aria-controls="guess-panel"
+        aria-expanded={isGuessPanelOpen}
+        aria-label={
+          isGuessPanelOpen
+            ? "Close location and time guess controls"
+            : "Open location and time guess controls"
+        }
+        onClick={() => setIsGuessPanelOpen((isOpen) => !isOpen)}
+      >
+        <span aria-hidden="true">?</span>
+      </button>
+
+      <aside
+        className={isGuessPanelOpen ? "guess-shell is-open" : "guess-shell"}
+        id="guess-panel"
+      >
+      <div className="guess-panel-topbar">
+        <span>Place and time</span>
       </div>
 
       <form
@@ -132,21 +156,23 @@ export function GuessPanel({
           <TimeGuessInput value={timeGuess} disabled={isLocked} onChange={setTimeGuess} />
         </section>
 
-        <button className="primary-action" type="submit" disabled={!canSubmit}>
-          Submit guess
-        </button>
-      </form>
+        <div className="guess-actions">
+          <button className="primary-action" type="submit" disabled={!canSubmit}>
+            Submit guess
+          </button>
 
-      {!outcome ? (
-        <button
-          className="secondary-action"
-          type="button"
-          disabled={remainingSeconds > 0}
-          onClick={onNextRound}
-        >
-          {isLastRound ? "Finish game" : "Next round"}
-        </button>
-      ) : null}
+          {!outcome ? (
+            <button
+              className="secondary-action"
+              type="button"
+              disabled={remainingSeconds > 0}
+              onClick={onNextRound}
+            >
+              {isLastRound ? "Finish game" : "Next round"}
+            </button>
+          ) : null}
+        </div>
+      </form>
     </aside>
 
       {outcome ? (
@@ -188,6 +214,7 @@ function RoundResultOverlay({
   const brief =
     metadata.summary ??
     `${eventName || round.title || "This event"} took place at ${place || "the highlighted location"} on ${round.answer.occurredAt}.`;
+  const detailUrl = typeof metadata.detailUrl === "string" ? metadata.detailUrl : null;
   const result = outcome.score;
 
   return (
@@ -214,7 +241,17 @@ function RoundResultOverlay({
           </div>
         </div>
 
-        <p>{String(brief)}</p>
+        <p>
+          {String(brief)}
+          {detailUrl ? (
+            <>
+              {" "}
+              <a href={detailUrl} target="_blank" rel="noreferrer">
+                Source
+              </a>
+            </>
+          ) : null}
+        </p>
         <div className="answer-row">
           <span>
             Your year: {formatGuessYear(outcome.guess?.guessedTime)}. Correct date:{" "}

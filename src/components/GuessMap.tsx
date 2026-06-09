@@ -98,12 +98,23 @@ export function GuessMap({
     mapContainer.addEventListener("pointerenter", invalidateSizeSoon);
     mapContainer.addEventListener("focusin", invalidateSizeSoon);
     mapContainer.addEventListener("transitionend", invalidateSizeSoon);
+
+    const resizeObserver = new ResizeObserver((entries) => {
+      const entry = entries[0];
+
+      if (entry.contentRect.width > 0 && entry.contentRect.height > 0) {
+        map.invalidateSize();
+      }
+    });
+
+    resizeObserver.observe(mapContainer);
     mapRef.current = map;
 
     return () => {
       mapContainer.removeEventListener("pointerenter", invalidateSizeSoon);
       mapContainer.removeEventListener("focusin", invalidateSizeSoon);
       mapContainer.removeEventListener("transitionend", invalidateSizeSoon);
+      resizeObserver.disconnect();
       map.remove();
       mapRef.current = null;
       markerRef.current = null;

@@ -103,11 +103,33 @@ async function resolvePanoramaSource(panoramaUrl: string) {
     return createSphericalTextureFromImage(panoramaUrl);
   }
 
-  return panoramaUrl;
+  if (await hasEquirectangularAspectRatio(panoramaUrl)) {
+    return panoramaUrl;
+  }
+
+  return createSphericalTextureFromImage(panoramaUrl);
 }
 
 function isLikelyEquirectangularAsset(panoramaUrl: string) {
   return panoramaUrl.includes("/panoramas/");
+}
+
+function hasEquirectangularAspectRatio(imageUrl: string) {
+  return new Promise<boolean>((resolve) => {
+    const image = new Image();
+
+    image.onload = () => {
+      const aspectRatio = image.naturalWidth / image.naturalHeight;
+      resolve(aspectRatio > 1.9 && aspectRatio < 2.1);
+    };
+
+    image.onerror = () => {
+      resolve(false);
+    };
+
+    image.crossOrigin = "anonymous";
+    image.src = imageUrl;
+  });
 }
 
 function createSphericalTextureFromImage(imageUrl: string) {
