@@ -155,7 +155,6 @@ export function App() {
     <main className="app-shell">
       {screen === "start" ? (
         <StartScreen
-          availableModules={[soccerModule]}
           defaultSettings={settings}
           dataError={roundDataError}
           isDataLoading={isRoundDataLoading}

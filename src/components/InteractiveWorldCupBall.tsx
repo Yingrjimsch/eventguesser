@@ -3,6 +3,7 @@ import * as THREE from "three";
 
 type InteractiveWorldCupBallProps = {
   modelUrl?: string;
+  onFirstTouch?: () => void;
 };
 
 type DragState = {
@@ -13,8 +14,16 @@ type DragState = {
   lastTime: number;
 };
 
-export function InteractiveWorldCupBall({ modelUrl }: InteractiveWorldCupBallProps) {
+export function InteractiveWorldCupBall({
+  modelUrl,
+  onFirstTouch,
+}: InteractiveWorldCupBallProps) {
   const hostRef = useRef<HTMLDivElement | null>(null);
+  const onFirstTouchRef = useRef(onFirstTouch);
+
+  useEffect(() => {
+    onFirstTouchRef.current = onFirstTouch;
+  }, [onFirstTouch]);
 
   useEffect(() => {
     const host = hostRef.current;
@@ -105,6 +114,9 @@ export function InteractiveWorldCupBall({ modelUrl }: InteractiveWorldCupBallPro
 
       event.preventDefault();
       drag.active = true;
+      if (!drag.hasInteracted) {
+        onFirstTouchRef.current?.();
+      }
       drag.hasInteracted = true;
       drag.pointerId = event.pointerId;
       drag.lastPoint.copy(worldPoint);
@@ -173,8 +185,8 @@ export function InteractiveWorldCupBall({ modelUrl }: InteractiveWorldCupBallPro
         ball.rotation.y += velocity.x * deltaSeconds * 1.6;
       }
 
-      const depthScale = THREE.MathUtils.mapLinear(ball.position.z, -3.2, 1.2, 0.58, 1.18);
-      ball.scale.setScalar(THREE.MathUtils.clamp(depthScale, 0.58, 1.18));
+      const depthScale = THREE.MathUtils.mapLinear(ball.position.z, -3.2, 1.2, 0.52, 1.06);
+      ball.scale.setScalar(THREE.MathUtils.clamp(depthScale, 0.52, 1.06));
       shadow.visible = drag.hasInteracted;
 
       if (drag.hasInteracted) {

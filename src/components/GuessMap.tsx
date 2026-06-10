@@ -12,7 +12,7 @@ type GuessMapProps = {
 };
 
 const defaultCenter: GeoPoint = {
-  lat: 20,
+  lat: 18,
   lng: 0,
 };
 
@@ -62,13 +62,13 @@ export function GuessMap({
 
     const map = L.map(mapContainer, {
       center: [defaultCenter.lat, defaultCenter.lng],
-      zoom: 2,
-      minZoom: 2,
+      zoom: 3,
+      minZoom: 3,
       scrollWheelZoom: true,
       touchZoom: true,
       maxBounds: [
-        [-85, -180],
-        [85, 180],
+        [-72, -180],
+        [84, 180],
       ],
       worldCopyJump: true,
       zoomControl: false,

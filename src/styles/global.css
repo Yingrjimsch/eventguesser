@@ -72,7 +72,7 @@ button:disabled {
   overflow: hidden;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
-  gap: 32px;
+  gap: 200px;
   min-height: 100vh;
   padding: 56px;
   align-items: end;
@@ -127,6 +127,10 @@ button:disabled {
   max-width: 720px;
   color: var(--text-main);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+.start-copy.is-behind-ball {
+  z-index: 1;
 }
 
 .start-ball-stage {
@@ -240,6 +244,40 @@ h2 {
     var(--album-red)
   );
   content: "";
+}
+
+.start-panel {
+  align-self: end;
+  width: min(360px, 100%);
+}
+
+.start-settings {
+  display: grid;
+  gap: 14px;
+}
+
+.start-settings summary {
+  width: fit-content;
+  color: var(--album-blue);
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.start-settings[open] summary {
+  margin-bottom: 14px;
+}
+
+.start-data-state {
+  min-height: 20px;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  font-weight: 750;
+}
+
+.start-data-state span {
+  display: block;
 }
 
 .field-grid {
@@ -905,6 +943,11 @@ select option {
   color: var(--album-blue);
 }
 
+.result-source-link {
+  display: block;
+  width: fit-content;
+}
+
 .answer-row {
   display: grid;
   gap: 5px;
@@ -1079,7 +1122,12 @@ select option {
   .start-screen {
     grid-template-columns: 1fr;
     align-content: center;
+    gap: 48px;
     padding: 28px;
+  }
+
+  .start-panel {
+    width: min(360px, 100%);
   }
 
   h1 {
@@ -1116,7 +1164,16 @@ select option {
 
 @media (max-width: 560px) {
   .start-screen {
-    padding: 16px;
+    padding: 160px 16px 16px;
+    align-content: start;
+    gap: 200px;
+  }
+
+  .start-panel {
+    justify-self: center;
+    gap: 12px;
+    width: min(320px, 100%);
+    padding: 14px;
   }
 
   h1 {
@@ -1246,14 +1303,17 @@ select option {
   }
 
   .round-result-overlay {
-    top: 96px;
+    top: auto;
     right: 10px;
-    bottom: auto;
+    bottom: 72px;
     left: 10px;
-    max-height: 38vh;
+    width: auto;
+    max-height: calc(100vh - 82px);
+    overflow: auto;
   }
 
   .round-result-card {
+    min-height: clamp(190px, 32vh, 260px);
     padding: 14px;
   }
 
@@ -1309,7 +1369,20 @@ select option {
   }
 
   .result-stats {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .result-stats div {
+    padding: 7px;
+  }
+
+  .result-stats span {
+    font-size: 0.58rem;
+  }
+
+  .result-stats strong {
+    font-size: 0.78rem;
   }
 
   .final-screen {

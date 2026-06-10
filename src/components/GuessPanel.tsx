@@ -99,20 +99,22 @@ export function GuessPanel({
         </div>
       </div>
 
-      <button
-        className="guess-toggle"
-        type="button"
-        aria-controls="guess-panel"
-        aria-expanded={isGuessPanelOpen}
-        aria-label={
-          isGuessPanelOpen
-            ? "Close location and time guess controls"
-            : "Open location and time guess controls"
-        }
-        onClick={() => setIsGuessPanelOpen((isOpen) => !isOpen)}
-      >
-        <span aria-hidden="true">?</span>
-      </button>
+      {!outcome ? (
+        <button
+          className="guess-toggle"
+          type="button"
+          aria-controls="guess-panel"
+          aria-expanded={isGuessPanelOpen}
+          aria-label={
+            isGuessPanelOpen
+              ? "Close location and time guess controls"
+              : "Open location and time guess controls"
+          }
+          onClick={() => setIsGuessPanelOpen((isOpen) => !isOpen)}
+        >
+          <span aria-hidden="true">?</span>
+        </button>
+      ) : null}
 
       <aside
         className={isGuessPanelOpen ? "guess-shell is-open" : "guess-shell"}
@@ -243,15 +245,12 @@ function RoundResultOverlay({
 
         <p>
           {String(brief)}
-          {detailUrl ? (
-            <>
-              {" "}
-              <a href={detailUrl} target="_blank" rel="noreferrer">
-                Source
-              </a>
-            </>
-          ) : null}
         </p>
+        {detailUrl ? (
+          <a className="result-source-link" href={detailUrl} target="_blank" rel="noreferrer">
+            View source
+          </a>
+        ) : null}
         <div className="answer-row">
           <span>
             Your year: {formatGuessYear(outcome.guess?.guessedTime)}. Correct date:{" "}

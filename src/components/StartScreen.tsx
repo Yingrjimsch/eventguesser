@@ -1,9 +1,8 @@
 import { useState } from "react";
-import type { EventCategory, GameModule, GameSettings } from "../game/gameTypes";
+import type { GameSettings } from "../game/gameTypes";
 import { InteractiveWorldCupBall } from "./InteractiveWorldCupBall";
 
 type StartScreenProps = {
-  availableModules: GameModule[];
   dataError?: string | null;
   defaultSettings: GameSettings;
   isDataLoading?: boolean;
@@ -17,26 +16,25 @@ const triondaModelUrl =
   "/models/trionda/source/Trionda%202026.glb";
 
 export function StartScreen({
-  availableModules,
   dataError,
   defaultSettings,
   isDataLoading = false,
   maxRounds,
   onStart,
 }: StartScreenProps) {
-  const [category, setCategory] = useState<EventCategory>(defaultSettings.category);
+  const category = defaultSettings.category;
   const [roundCount, setRoundCount] = useState(defaultSettings.roundCount);
   const [roundDurationSeconds, setRoundDurationSeconds] = useState(
     defaultSettings.roundDurationSeconds,
   );
+  const [hasTouchedBall, setHasTouchedBall] = useState(false);
 
-  const selectedModule = availableModules.find((module) => module.id === category);
   const canStart = !isDataLoading && !dataError && maxRounds > 0;
 
   return (
     <section className="start-screen">
-      <div className="start-copy">
-        <p className="eyebrow">World Cup Guesser</p>
+      <div className={hasTouchedBall ? "start-copy is-behind-ball" : "start-copy"}>
+        <p className="eyebrow">Which Worldcup?</p>
         <h1>Guess the match. Find the stadium.</h1>
         <p>
           Drop into World Cup scenes, place the stadium, and scroll the timeline
@@ -44,10 +42,13 @@ export function StartScreen({
         </p>
       </div>
 
-      <InteractiveWorldCupBall modelUrl={triondaModelUrl} />
+      <InteractiveWorldCupBall
+        modelUrl={triondaModelUrl}
+        onFirstTouch={() => setHasTouchedBall(true)}
+      />
 
       <form
-        className="setup-panel"
+        className="setup-panel start-panel"
         onSubmit={(event) => {
           event.preventDefault();
           onStart({
@@ -57,59 +58,69 @@ export function StartScreen({
           });
         }}
       >
-        <div className="field-group">
-          <label htmlFor="category">Edition</label>
-          <select
-            id="category"
-            value={category}
-            onChange={(event) => setCategory(event.target.value as EventCategory)}
-          >
-            {availableModules.map((module) => (
-              <option key={module.id} value={module.id}>
-                {module.label}
-              </option>
-            ))}
-          </select>
-          {selectedModule ? <span>{selectedModule.description}</span> : null}
-          {isDataLoading ? <span>Loading match data...</span> : null}
-          {dataError ? <span role="alert">{dataError}</span> : null}
-        </div>
+        <button className="primary-action" type="submit" disabled={!canStart}>
+          {isDataLoading ? "Loading match data" : "Let's Play"}
+        </button>
 
-        <div className="field-grid">
+        <details className="start-settings">
+          <summary>Settings</summary>
+          {/*
           <div className="field-group">
-            <label htmlFor="rounds">Matches</label>
-            <input
-              id="rounds"
-              max={maxRounds}
-              min={1}
-              type="number"
-              disabled={!canStart}
-              value={roundCount}
-              onChange={(event) => {
-                setRoundCount(Number(event.target.value));
-              }}
-            />
-          </div>
-
-          <div className="field-group">
-            <label htmlFor="timer">Clock</label>
+            <label htmlFor="category">Edition</label>
             <select
-              id="timer"
-              value={roundDurationSeconds}
-              onChange={(event) => setRoundDurationSeconds(Number(event.target.value))}
+              id="category"
+              value={category}
+              onChange={(event) => setCategory(event.target.value as EventCategory)}
             >
-              {timerOptions.map((seconds) => (
-                <option key={seconds} value={seconds}>
-                  {seconds} seconds
+              {availableModules.map((module) => (
+                <option key={module.id} value={module.id}>
+                  {module.label}
                 </option>
               ))}
             </select>
+            {selectedModule ? <span>{selectedModule.description}</span> : null}
           </div>
-        </div>
+          */}
 
-        <button className="primary-action" type="submit" disabled={!canStart}>
-          {isDataLoading ? "Loading match data" : "Start World Cup run"}
-        </button>
+          <div className="field-grid">
+            <div className="field-group">
+              <label htmlFor="rounds">Matches</label>
+              <input
+                id="rounds"
+                max={maxRounds}
+                min={1}
+                type="number"
+                disabled={!canStart}
+                value={roundCount}
+                onChange={(event) => {
+                  setRoundCount(Number(event.target.value));
+                }}
+              />
+            </div>
+
+            <div className="field-group">
+              <label htmlFor="timer">Clock</label>
+              <select
+                id="timer"
+                value={roundDurationSeconds}
+                onChange={(event) => setRoundDurationSeconds(Number(event.target.value))}
+              >
+                {timerOptions.map((seconds) => (
+                  <option key={seconds} value={seconds}>
+                    {seconds} seconds
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </details>
+
+        {isDataLoading || dataError ? (
+          <div className="start-data-state" aria-live="polite">
+            {isDataLoading ? <span>Loading match data...</span> : null}
+            {dataError ? <span role="alert">{dataError}</span> : null}
+          </div>
+        ) : null}
       </form>
     </section>
   );
