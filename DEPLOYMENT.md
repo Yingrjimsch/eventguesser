@@ -4,15 +4,16 @@
 
 - The app is a static Vite/React frontend.
 - The JavaScript and CSS build output is small enough for a normal static web container.
-- The panorama assets dominate deployment size: `public` is about 3.6 GB, while only the 502 referenced panorama files are about 1.42 GB.
-- Vite copies everything under `public` into `dist`, so unreferenced generated image candidates are currently shipped too.
+- The panorama assets dominate deployment size: `public/panoramas` is about 3.6 GB, while only the 502 referenced panorama files are about 1.42 GB.
+- Match data and panorama metadata are runtime JSON files under `/data`, so they can be updated without rebuilding the app image.
 
 ## Recommended Architecture
 
-Use two delivery paths:
+Use three delivery paths:
 
 1. Serve the Vite app from a small nginx container in Kubernetes.
-2. Serve panorama PNGs from object storage or a CDN-backed static host.
+2. Mount or serve runtime JSON data at `/data`.
+3. Serve panorama PNGs from a mounted folder, object storage, or a CDN-backed static host.
 
 Good asset targets:
 
@@ -30,7 +31,8 @@ Target result:
 
 - Keep all generated attempts outside `public`.
 - Keep only active game assets in a deployable asset directory.
-- Regenerate `src/modules/soccer/worldCupPublicMedia.ts` so URLs point either to `/panoramas/...` or to an external asset base URL.
+- Keep `worldCupRoundData.json` and `worldCupMediaData.json` in the runtime data folder.
+- `worldCupMediaData.json` should point either to `/panoramas/...` or to an external asset base URL.
 
 If assets stay in the app container, the curated image is still roughly 1.42 GB before Docker layer overhead. That works for a private deployment, but it will make pulls and rollbacks slow.
 
@@ -74,6 +76,11 @@ server {
     try_files $uri =404;
   }
 
+  location /data/ {
+    add_header Cache-Control "no-cache";
+    try_files $uri =404;
+  }
+
   location / {
     try_files $uri /index.html;
   }
@@ -87,11 +94,31 @@ Create a `.dockerignore` before building images:
 node_modules
 dist
 scraped
+public/data
+public/panoramas
 *.local
 .DS_Store
 ```
 
-If panoramas are externalized, also ignore `public/panoramas` and inject the asset base URL during build.
+For a Pi hostPath setup, copy the runtime files to the Pi:
+
+```text
+/srv/worldcup-guesser/data/worldCupRoundData.json
+/srv/worldcup-guesser/data/worldCupMediaData.json
+/srv/worldcup-guesser/panoramas/world-cup/...
+```
+
+Then mount them into nginx:
+
+```yaml
+volumeMounts:
+  - name: worldcup-data
+    mountPath: /usr/share/nginx/html/data
+    readOnly: true
+  - name: panoramas
+    mountPath: /usr/share/nginx/html/panoramas
+    readOnly: true
+```
 
 ## Phase 3: Kubernetes Resources
 

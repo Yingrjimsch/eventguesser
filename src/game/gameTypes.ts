@@ -4,8 +4,14 @@ export type EventMediaType = "panorama";
 
 export type GuessField = "location" | "time";
 
+export type EventPanorama = {
+  url: string;
+  label?: string;
+};
+
 export type EventMedia = {
-  panoramaUrl?: string;
+  panorama?: EventPanorama;
+  panoramas?: EventPanorama[];
 };
 
 export type GeoPoint = {

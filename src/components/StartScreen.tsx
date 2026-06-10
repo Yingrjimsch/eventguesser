@@ -4,7 +4,9 @@ import { InteractiveWorldCupBall } from "./InteractiveWorldCupBall";
 
 type StartScreenProps = {
   availableModules: GameModule[];
+  dataError?: string | null;
   defaultSettings: GameSettings;
+  isDataLoading?: boolean;
   maxRounds: number;
   onStart: (settings: GameSettings) => void;
 };
@@ -16,7 +18,9 @@ const triondaModelUrl =
 
 export function StartScreen({
   availableModules,
+  dataError,
   defaultSettings,
+  isDataLoading = false,
   maxRounds,
   onStart,
 }: StartScreenProps) {
@@ -27,6 +31,7 @@ export function StartScreen({
   );
 
   const selectedModule = availableModules.find((module) => module.id === category);
+  const canStart = !isDataLoading && !dataError && maxRounds > 0;
 
   return (
     <section className="start-screen">
@@ -66,6 +71,8 @@ export function StartScreen({
             ))}
           </select>
           {selectedModule ? <span>{selectedModule.description}</span> : null}
+          {isDataLoading ? <span>Loading match data...</span> : null}
+          {dataError ? <span role="alert">{dataError}</span> : null}
         </div>
 
         <div className="field-grid">
@@ -76,6 +83,7 @@ export function StartScreen({
               max={maxRounds}
               min={1}
               type="number"
+              disabled={!canStart}
               value={roundCount}
               onChange={(event) => {
                 setRoundCount(Number(event.target.value));
@@ -99,8 +107,8 @@ export function StartScreen({
           </div>
         </div>
 
-        <button className="primary-action" type="submit">
-          Start World Cup run
+        <button className="primary-action" type="submit" disabled={!canStart}>
+          {isDataLoading ? "Loading match data" : "Start World Cup run"}
         </button>
       </form>
     </section>

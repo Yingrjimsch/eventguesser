@@ -1,6 +1,7 @@
 node_modules/
 dist/
 public/panoramas/
+public/data/
 scraped/
 scripts/
 .DS_Store

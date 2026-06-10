@@ -1,6 +1,4 @@
-import type { EventRound } from "../../game/gameTypes";
-import worldCupRoundData from "../../data/worldCupRoundData.json";
-import { getWorldCupPublicMedia } from "./worldCupPublicMedia";
+import type { EventMedia, EventRound } from "../../game/gameTypes";
 
 export type SoccerMetadata = {
   competition?: string;
@@ -20,6 +18,10 @@ export type SoccerMetadata = {
 
 type WorldCupRoundDataPayload = {
   rounds: WorldCupRound[];
+};
+
+type WorldCupMediaDataPayload = {
+  media: Record<string, EventMedia>;
 };
 
 type WorldCupRound = {
@@ -45,15 +47,38 @@ type WorldCupRound = {
   summary: string;
 };
 
-const worldCupData = worldCupRoundData as WorldCupRoundDataPayload;
+const roundDataUrl =
+  import.meta.env.VITE_WORLD_CUP_ROUND_DATA_URL || "/data/worldCupRoundData.json";
+const mediaDataUrl =
+  import.meta.env.VITE_WORLD_CUP_MEDIA_DATA_URL || "/data/worldCupMediaData.json";
 
-export const soccerRounds: EventRound<SoccerMetadata>[] = worldCupData.rounds.map(
-  (round) => ({
+export async function loadSoccerRounds() {
+  const [roundData, mediaData] = await Promise.all([
+    fetchJson<WorldCupRoundDataPayload>(roundDataUrl),
+    fetchJson<WorldCupMediaDataPayload>(mediaDataUrl),
+  ]);
+
+  return roundData.rounds.map((round) => toEventRound(round, mediaData.media[round.id]));
+}
+
+export function hasRoundPanorama(round: EventRound) {
+  return Boolean(round.media.panoramas?.length);
+}
+
+function toEventRound(
+  round: WorldCupRound,
+  media: EventMedia | undefined,
+): EventRound<SoccerMetadata> {
+  const panoramas = media?.panoramas ?? [];
+  const panorama = panoramas.length > 0 ? pickRandomItem(panoramas) : undefined;
+
+  return {
     id: round.id,
     category: "soccer",
     title: round.title,
     media: {
-      ...getWorldCupPublicMedia(round.id),
+      ...(media ?? {}),
+      panorama,
     },
     answer: {
       location: {
@@ -77,5 +102,19 @@ export const soccerRounds: EventRound<SoccerMetadata>[] = worldCupData.rounds.ma
       summary: round.summary,
       detailUrl: round.detailUrl,
     },
-  }),
-);
+  };
+}
+
+function pickRandomItem<T>(items: T[]) {
+  return items[Math.floor(Math.random() * items.length)];
+}
+
+async function fetchJson<T>(url: string): Promise<T> {
+  const response = await fetch(url, { cache: "no-cache" });
+
+  if (!response.ok) {
+    throw new Error(`Could not load ${url} (${response.status})`);
+  }
+
+  return response.json() as Promise<T>;
+}

@@ -1,10 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { soccerModule } from "../modules/soccer/soccerModule";
-import { soccerRounds } from "../modules/soccer/soccerRounds";
-import {
-  hasWorldCupPublicMedia,
-  worldCupPublicMediaCount,
-} from "../modules/soccer/worldCupPublicMedia";
+import { hasRoundPanorama, loadSoccerRounds } from "../modules/soccer/soccerRounds";
 import type { EventRound, GameSettings, RoundGuess, RoundOutcome } from "../game/gameTypes";
 import { createInitialGameState, getCurrentRound } from "../game/gameState";
 import { calculateRoundScore, createTimeoutRoundScore } from "../game/scoring";
@@ -23,6 +19,9 @@ const defaultSettings: GameSettings = {
 export function App() {
   const [screen, setScreen] = useState<AppScreen>("start");
   const [settings, setSettings] = useState<GameSettings>(defaultSettings);
+  const [availableRounds, setAvailableRounds] = useState<EventRound[]>([]);
+  const [roundDataError, setRoundDataError] = useState<string | null>(null);
+  const [isRoundDataLoading, setIsRoundDataLoading] = useState(true);
   const [rounds, setRounds] = useState<EventRound[]>([]);
   const [currentRoundIndex, setCurrentRoundIndex] = useState(0);
   const [outcomes, setOutcomes] = useState<RoundOutcome[]>([]);
@@ -41,9 +40,50 @@ export function App() {
   );
 
   const currentRound = getCurrentRound(gameState);
+  const mediaReadyRoundCount = useMemo(
+    () => availableRounds.filter(hasRoundPanorama).length,
+    [availableRounds],
+  );
+
+  useEffect(() => {
+    let isCancelled = false;
+
+    setIsRoundDataLoading(true);
+    setRoundDataError(null);
+
+    loadSoccerRounds()
+      .then((loadedRounds) => {
+        if (isCancelled) {
+          return;
+        }
+
+        setAvailableRounds(loadedRounds);
+      })
+      .catch((error: unknown) => {
+        if (isCancelled) {
+          return;
+        }
+
+        setAvailableRounds([]);
+        setRoundDataError(error instanceof Error ? error.message : "Could not load game data");
+      })
+      .finally(() => {
+        if (!isCancelled) {
+          setIsRoundDataLoading(false);
+        }
+      });
+
+    return () => {
+      isCancelled = true;
+    };
+  }, []);
 
   function startGame(nextSettings: GameSettings) {
-    const selectedRounds = selectRandomRounds(soccerRounds, nextSettings.roundCount);
+    if (availableRounds.length === 0) {
+      return;
+    }
+
+    const selectedRounds = selectRandomRounds(availableRounds, nextSettings.roundCount);
 
     setSettings(nextSettings);
     setRounds(selectedRounds);
@@ -117,7 +157,9 @@ export function App() {
         <StartScreen
           availableModules={[soccerModule]}
           defaultSettings={settings}
-          maxRounds={worldCupPublicMediaCount}
+          dataError={roundDataError}
+          isDataLoading={isRoundDataLoading}
+          maxRounds={mediaReadyRoundCount}
           onStart={startGame}
         />
       ) : null}
@@ -147,8 +189,8 @@ export function App() {
 }
 
 function selectRandomRounds(rounds: EventRound[], roundCount: number) {
-  const mediaReadyRounds = rounds.filter((round) => hasWorldCupPublicMedia(round.id));
-  const remainingRounds = rounds.filter((round) => !hasWorldCupPublicMedia(round.id));
+  const mediaReadyRounds = rounds.filter(hasRoundPanorama);
+  const remainingRounds = rounds.filter((round) => !hasRoundPanorama(round));
 
   return [
     ...shuffleRounds(mediaReadyRounds),
