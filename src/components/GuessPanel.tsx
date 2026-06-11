@@ -9,9 +9,17 @@ type GuessPanelProps = {
   score: number;
   outcome?: RoundOutcome;
   isLastRound: boolean;
+  autoAdvanceResult?: boolean;
+  canAdvanceResult?: boolean;
   onSubmitGuess: (guess: Omit<RoundGuess, "secondsUsed">) => void;
   onNextRound: () => void;
   onTimeOut: (roundId: string) => void;
+  nextUnavailableLabel?: string;
+  roundStartedAt?: number;
+  waitingForPlayers?: {
+    submittedCount: number;
+    totalPlayers: number;
+  };
 };
 
 export function GuessPanel({
@@ -20,15 +28,22 @@ export function GuessPanel({
   score,
   outcome,
   isLastRound,
+  autoAdvanceResult = true,
+  canAdvanceResult = true,
   onSubmitGuess,
   onNextRound,
   onTimeOut,
+  nextUnavailableLabel,
+  roundStartedAt,
+  waitingForPlayers,
 }: GuessPanelProps) {
   const [locationGuess, setLocationGuess] = useState<GeoPoint | null>(
     outcome?.guess?.guessedLocation ?? null,
   );
   const [timeGuess, setTimeGuess] = useState(outcome?.guess?.guessedTime ?? "2000");
-  const [remainingSeconds, setRemainingSeconds] = useState(roundDurationSeconds);
+  const [remainingSeconds, setRemainingSeconds] = useState(
+    getRemainingSeconds(roundDurationSeconds, roundStartedAt),
+  );
   const [isGuessPanelOpen, setIsGuessPanelOpen] = useState(false);
 
   useEffect(() => {
@@ -38,8 +53,8 @@ export function GuessPanel({
   }, [round.id, roundDurationSeconds, outcome]);
 
   useEffect(() => {
-    setRemainingSeconds(roundDurationSeconds);
-  }, [round.id, roundDurationSeconds]);
+    setRemainingSeconds(getRemainingSeconds(roundDurationSeconds, roundStartedAt));
+  }, [round.id, roundDurationSeconds, roundStartedAt]);
 
   useEffect(() => {
     if (outcome || remainingSeconds <= 0) {
@@ -64,14 +79,14 @@ export function GuessPanel({
   }, [onTimeOut, outcome, remainingSeconds, round.id]);
 
   useEffect(() => {
-    if (!outcome) {
+    if (!autoAdvanceResult || !outcome || waitingForPlayers) {
       return undefined;
     }
 
     const timeoutId = window.setTimeout(onNextRound, isLastRound ? 9500 : 7500);
 
     return () => window.clearTimeout(timeoutId);
-  }, [isLastRound, onNextRound, outcome]);
+  }, [autoAdvanceResult, isLastRound, onNextRound, outcome, waitingForPlayers]);
 
   const canSubmit = Boolean(
     locationGuess && timeGuess && !outcome && remainingSeconds > 0,
@@ -112,7 +127,11 @@ export function GuessPanel({
           }
           onClick={() => setIsGuessPanelOpen((isOpen) => !isOpen)}
         >
-          <span aria-hidden="true">?</span>
+          <span className="guess-toggle-icons" aria-hidden="true">
+            <span className="guess-toggle-pin"></span>
+            <span className="guess-toggle-clock"></span>
+          </span>
+          <span className="guess-toggle-text">Guess</span>
         </button>
       ) : null}
 
@@ -177,11 +196,20 @@ export function GuessPanel({
       </form>
     </aside>
 
-      {outcome ? (
+      {outcome && waitingForPlayers ? (
+        <RoundWaitingOverlay
+          submittedCount={waitingForPlayers.submittedCount}
+          totalPlayers={waitingForPlayers.totalPlayers}
+        />
+      ) : null}
+
+      {outcome && !waitingForPlayers ? (
         <RoundResultOverlay
           round={round}
           outcome={outcome}
           isLastRound={isLastRound}
+          canAdvanceResult={canAdvanceResult}
+          nextUnavailableLabel={nextUnavailableLabel}
           onNextRound={onNextRound}
         />
       ) : null}
@@ -193,11 +221,15 @@ function RoundResultOverlay({
   round,
   outcome,
   isLastRound,
+  canAdvanceResult,
+  nextUnavailableLabel,
   onNextRound,
 }: {
   round: EventRound;
   outcome: RoundOutcome;
   isLastRound: boolean;
+  canAdvanceResult: boolean;
+  nextUnavailableLabel?: string;
   onNextRound: () => void;
 }) {
   const metadata = (round.metadata ?? {}) as Record<string, unknown>;
@@ -262,11 +294,51 @@ function RoundResultOverlay({
           </span>
         </div>
 
-        <button className="primary-action" type="button" onClick={onNextRound}>
-          {isLastRound ? "Show final results" : "Next round"}
-        </button>
+        {canAdvanceResult ? (
+          <button className="primary-action" type="button" onClick={onNextRound}>
+            {isLastRound ? "Show final results" : "Next round"}
+          </button>
+        ) : (
+          <span className="round-waiting-host">
+            {nextUnavailableLabel ?? "Waiting"}
+            <AnimatedDots />
+          </span>
+        )}
       </div>
     </section>
+  );
+}
+
+function RoundWaitingOverlay({
+  submittedCount,
+  totalPlayers,
+}: {
+  submittedCount: number;
+  totalPlayers: number;
+}) {
+  return (
+    <section className="round-result-overlay" aria-live="polite">
+      <div className="round-result-card round-waiting-card">
+        <p className="eyebrow">Guess submitted</p>
+        <h2>Waiting for players</h2>
+        <p>
+          {submittedCount} of {totalPlayers} players have submitted.
+        </p>
+        <span className="waiting-dots" aria-label="Waiting">
+          <AnimatedDots />
+        </span>
+      </div>
+    </section>
+  );
+}
+
+function AnimatedDots() {
+  return (
+    <span className="animated-dots" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
   );
 }
 
@@ -275,6 +347,16 @@ function formatTimer(seconds: number) {
   const remaining = seconds % 60;
 
   return `${minutes}:${remaining.toString().padStart(2, "0")}`;
+}
+
+function getRemainingSeconds(roundDurationSeconds: number, roundStartedAt?: number) {
+  if (!roundStartedAt) {
+    return roundDurationSeconds;
+  }
+
+  const elapsedSeconds = Math.max(0, Math.round((Date.now() - roundStartedAt) / 1000));
+
+  return Math.max(0, roundDurationSeconds - elapsedSeconds);
 }
 
 function formatDistance(distanceKm: number | null) {

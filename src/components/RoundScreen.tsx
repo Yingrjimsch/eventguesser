@@ -6,18 +6,31 @@ type RoundScreenProps = {
   gameState: GameState;
   round: EventRound;
   outcome?: RoundOutcome;
+  autoAdvanceResult?: boolean;
+  canAdvanceResult?: boolean;
   onNextRound: () => void;
   onSubmitGuess: (guess: Omit<RoundGuess, "secondsUsed">) => void;
   onTimeOut: (roundId: string) => void;
+  nextUnavailableLabel?: string;
+  roundStartedAt?: number;
+  waitingForPlayers?: {
+    submittedCount: number;
+    totalPlayers: number;
+  };
 };
 
 export function RoundScreen({
   gameState,
   round,
   outcome,
+  autoAdvanceResult = true,
+  canAdvanceResult = true,
   onNextRound,
   onSubmitGuess,
   onTimeOut,
+  nextUnavailableLabel,
+  roundStartedAt,
+  waitingForPlayers,
 }: RoundScreenProps) {
   const isLastRound = gameState.currentRoundIndex === gameState.totalRounds - 1;
 
@@ -41,9 +54,14 @@ export function RoundScreen({
           score={gameState.score}
           outcome={outcome}
           isLastRound={isLastRound}
+          autoAdvanceResult={autoAdvanceResult}
+          canAdvanceResult={canAdvanceResult}
+          nextUnavailableLabel={nextUnavailableLabel}
+          waitingForPlayers={waitingForPlayers}
           onSubmitGuess={onSubmitGuess}
           onNextRound={onNextRound}
           onTimeOut={onTimeOut}
+          roundStartedAt={roundStartedAt}
         />
       </div>
     </section>

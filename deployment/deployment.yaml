@@ -18,12 +18,23 @@ spec:
           image: yingrjimsch/eventguesser:v0.0.1
           ports:
             - containerPort: 8080
+          env:
+            - name: GITHUB_REPOSITORY
+              value: Yingrjimsch/eventguesser
+            - name: GITHUB_REPORT_LABEL
+              value: image-report
+            - name: GITHUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: eventguesser-github
+                  key: token
+                  optional: true
           volumeMounts:
             - name: data
-              mountPath: /usr/share/nginx/html/data
+              mountPath: /app/data
               readOnly: true
             - name: panoramas
-              mountPath: /usr/share/nginx/html/panoramas
+              mountPath: /app/panoramas
               readOnly: true
           livenessProbe:
             httpGet:
@@ -39,17 +50,17 @@ spec:
             periodSeconds: 10
           resources:
             requests:
-              cpu: 50m
-              memory: 64Mi
+              cpu: 75m
+              memory: 128Mi
             limits:
-              cpu: 250m
+              cpu: 300m
               memory: 256Mi
       volumes:
         - name: data
           hostPath:
-            path: /srv/worldcup-guesser/data
+            path: /home/raspi/development/eventguesser/data
             type: Directory
         - name: panoramas
           hostPath:
-            path: /srv/worldcup-guesser/panoramas
+            path: /home/raspi/development/eventguesser/panoramas
             type: Directory

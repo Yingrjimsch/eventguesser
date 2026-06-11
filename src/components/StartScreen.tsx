@@ -7,6 +7,7 @@ type StartScreenProps = {
   defaultSettings: GameSettings;
   isDataLoading?: boolean;
   maxRounds: number;
+  onHostMultiplayer: (settings: GameSettings) => void;
   onStart: (settings: GameSettings) => void;
 };
 
@@ -20,6 +21,7 @@ export function StartScreen({
   defaultSettings,
   isDataLoading = false,
   maxRounds,
+  onHostMultiplayer,
   onStart,
 }: StartScreenProps) {
   const category = defaultSettings.category;
@@ -30,6 +32,7 @@ export function StartScreen({
   const [hasTouchedBall, setHasTouchedBall] = useState(false);
 
   const canStart = !isDataLoading && !dataError && maxRounds > 0;
+  const selectedRoundCount = clampRoundCount(roundCount, maxRounds);
 
   return (
     <section className="start-screen">
@@ -53,13 +56,28 @@ export function StartScreen({
           event.preventDefault();
           onStart({
             category,
-            roundCount,
+            roundCount: selectedRoundCount,
             roundDurationSeconds,
           });
         }}
       >
         <button className="primary-action" type="submit" disabled={!canStart}>
           {isDataLoading ? "Loading match data" : "Let's Play"}
+        </button>
+
+        <button
+          className="secondary-action"
+          type="button"
+          disabled={!canStart}
+          onClick={() => {
+            onHostMultiplayer({
+              category,
+              roundCount: selectedRoundCount,
+              roundDurationSeconds,
+            });
+          }}
+        >
+          Host game
         </button>
 
         <details className="start-settings">
@@ -93,7 +111,7 @@ export function StartScreen({
                 disabled={!canStart}
                 value={roundCount}
                 onChange={(event) => {
-                  setRoundCount(Number(event.target.value));
+                  setRoundCount(clampRoundCount(event.target.value, maxRounds));
                 }}
               />
             </div>
@@ -124,4 +142,14 @@ export function StartScreen({
       </form>
     </section>
   );
+}
+
+function clampRoundCount(value: number | string, maxRounds: number) {
+  const numericValue = Number(value);
+
+  if (!Number.isFinite(numericValue)) {
+    return 1;
+  }
+
+  return Math.max(1, Math.min(maxRounds || 1, Math.trunc(numericValue)));
 }

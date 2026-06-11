@@ -1,20 +1,34 @@
+import { useState } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import type { EventRound, RoundOutcome } from "../game/gameTypes";
 
 type FinalResultsScreenProps = {
   rounds: EventRound[];
   outcomes: RoundOutcome[];
   score: number;
-  onPlayAgain: () => void;
+  leaderboard?: Array<{
+    id: string;
+    isYou?: boolean;
+    name: string;
+    score: number;
+  }>;
+  onPlayAgain?: () => void;
   onExit: () => void;
 };
+
+type ReportState = "idle" | "sending" | "sent" | "error";
+
+const reportApiUrl = import.meta.env.VITE_REPORT_API_URL || "/api/reports";
 
 export function FinalResultsScreen({
   rounds,
   outcomes,
   score,
+  leaderboard,
   onPlayAgain,
   onExit,
 }: FinalResultsScreenProps) {
+  const [reportStates, setReportStates] = useState<Record<string, ReportState>>({});
   const completedOutcomes = rounds
     .map((round) => {
       const outcome = outcomes.find((item) => item.roundId === round.id);
@@ -44,8 +58,29 @@ export function FinalResultsScreen({
         </p>
       </header>
 
+      {leaderboard ? (
+        <section className="compact-leaderboard" aria-label="Leaderboard">
+          <div className="compact-leaderboard-header">
+            <span>Leaderboard</span>
+            <strong>{leaderboard.length} players</strong>
+          </div>
+          <div className="compact-leaderboard-list">
+            {leaderboard.map((player, index) => (
+              <article className="compact-leaderboard-item" key={player.id}>
+                <span>{index + 1}</span>
+                <strong>
+                  {player.name}
+                  {player.isYou ? " (You)" : ""}
+                </strong>
+                <b>{player.score.toLocaleString()}</b>
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
       <div className="final-summary-grid">
-        <SummaryMetric label="Average distance" value={formatDistance(averageDistanceKm)} />
+        <SummaryMetric label="Average distance error" value={formatDistance(averageDistanceKm)} />
         <SummaryMetric label="Average date error" value={formatDays(averageDateErrorDays)} />
         <SummaryMetric
           label="Best round"
@@ -58,6 +93,11 @@ export function FinalResultsScreen({
           detail={worstRound ? getRoundName(worstRound.round) : undefined}
         />
       </div>
+
+      <p className="final-report-note">
+        If a panorama is bad or not recognizable, report it with one click from
+        the round list below.
+      </p>
 
       <section className="round-summary-list" aria-label="Round results">
         {completedOutcomes.map(({ round, outcome }, index) => (
@@ -73,14 +113,27 @@ export function FinalResultsScreen({
               <span>{formatDays(outcome.score.dateErrorDays)}</span>
               <strong>{outcome.score.totalScore.toLocaleString()}</strong>
             </div>
+
+            <button
+              className="report-image-link"
+              type="button"
+              disabled={reportStates[getReportKey(round)] === "sending"}
+              onClick={() => {
+                void submitImageReport(round, setReportStates);
+              }}
+            >
+              {getReportLabel(reportStates[getReportKey(round)] ?? "idle")}
+            </button>
           </article>
         ))}
       </section>
 
       <div className="final-actions">
-        <button className="primary-action" type="button" onClick={onPlayAgain}>
-          Play again
-        </button>
+        {onPlayAgain ? (
+          <button className="primary-action" type="button" onClick={onPlayAgain}>
+            Play again
+          </button>
+        ) : null}
         <button className="secondary-action" type="button" onClick={onExit}>
           Back to start
         </button>
@@ -183,4 +236,70 @@ function formatDays(days: number | null) {
   }
 
   return `${Math.round(days)} days`;
+}
+
+async function submitImageReport(
+  round: EventRound,
+  setReportStates: Dispatch<SetStateAction<Record<string, ReportState>>>,
+) {
+  const reportKey = getReportKey(round);
+  const panoramaUrl = getRoundPanoramaUrl(round);
+  const imageName = getFileName(panoramaUrl);
+
+  setReportStates((states) => ({ ...states, [reportKey]: "sending" }));
+
+  try {
+    const response = await fetch(reportApiUrl, {
+      body: JSON.stringify({
+        imageName,
+        imageUrl: panoramaUrl,
+        match: getRoundName(round),
+        place: getRoundPlace(round),
+        roundId: round.id,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+    });
+
+    if (!response.ok) {
+      throw new Error("Report failed");
+    }
+
+    setReportStates((states) => ({ ...states, [reportKey]: "sent" }));
+  } catch {
+    setReportStates((states) => ({ ...states, [reportKey]: "error" }));
+  }
+}
+
+function getReportLabel(state: ReportState) {
+  if (state === "sending") {
+    return "Sending...";
+  }
+
+  if (state === "sent") {
+    return "Reported";
+  }
+
+  if (state === "error") {
+    return "Try again";
+  }
+
+  return "Report image";
+}
+
+function getReportKey(round: EventRound) {
+  return `${round.id}:${getFileName(getRoundPanoramaUrl(round))}`;
+}
+
+function getRoundPanoramaUrl(round: EventRound) {
+  return round.media.panorama?.url ?? round.media.panoramas?.[0]?.url ?? "unknown";
+}
+
+function getFileName(url: string) {
+  const path = url.split("?")[0];
+  const name = path.split("/").filter(Boolean).at(-1);
+
+  return name ? decodeURIComponent(name) : "unknown";
 }
