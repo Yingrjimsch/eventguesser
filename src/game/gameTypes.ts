@@ -35,8 +35,10 @@ export type EventRound<TMetadata = Record<string, unknown>> = {
 
 export type GameSettings = {
   category: EventCategory;
+  endYear: number;
   roundCount: number;
   roundDurationSeconds: number;
+  startYear: number;
 };
 
 export type RoundGuess = {

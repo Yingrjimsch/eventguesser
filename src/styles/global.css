@@ -292,6 +292,15 @@ h2 {
   display: block;
 }
 
+.range-match-count {
+  display: block;
+  margin-top: 10px;
+  color: rgba(12, 32, 53, 0.66);
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
 .field-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -301,6 +310,36 @@ h2 {
 .field-group {
   display: grid;
   gap: 8px;
+}
+
+.year-range-control {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+  border: 1px solid rgba(52, 89, 173, 0.16);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 12px;
+}
+
+.year-range-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.year-range-header span {
+  color: #0a1b2f;
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.year-range-header output {
+  color: var(--album-red);
+  font-size: 0.95rem;
+  font-weight: 950;
 }
 
 .field-group label {
@@ -319,6 +358,107 @@ h2 {
 
 .field-group:focus-within label {
   color: var(--accent-strong);
+}
+
+.dual-year-range {
+  --range-end: 100%;
+  --range-start: 0%;
+  position: relative;
+  height: 38px;
+  margin-top: 2px;
+}
+
+.dual-year-range-track,
+.dual-year-range-track span {
+  position: absolute;
+  top: 50%;
+  height: 8px;
+  border-radius: 999px;
+  transform: translateY(-50%);
+}
+
+.dual-year-range-track {
+  right: 7px;
+  left: 7px;
+  background: rgba(52, 89, 173, 0.16);
+  box-shadow: inset 0 1px 2px rgba(16, 34, 56, 0.12);
+}
+
+.dual-year-range-track span {
+  right: calc(100% - var(--range-end));
+  left: var(--range-start);
+  background: linear-gradient(90deg, var(--album-yellow), var(--album-orange), var(--album-red));
+  box-shadow: 0 6px 16px rgba(244, 124, 49, 0.2);
+}
+
+.dual-year-range-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  min-height: 38px;
+  border: 0;
+  appearance: none;
+  background: transparent;
+  box-shadow: none;
+  cursor: pointer;
+  pointer-events: none;
+  padding: 0;
+}
+
+.dual-year-range-input-start {
+  z-index: 2;
+}
+
+.dual-year-range-input-end {
+  z-index: 3;
+}
+
+.dual-year-range-input::-webkit-slider-runnable-track {
+  height: 8px;
+  background: transparent;
+}
+
+.dual-year-range-input::-moz-range-track {
+  height: 8px;
+  background: transparent;
+}
+
+.dual-year-range-input::-webkit-slider-thumb {
+  width: 24px;
+  height: 24px;
+  border: 3px solid #ffffff;
+  border-radius: 999px;
+  appearance: none;
+  background: var(--album-blue);
+  box-shadow: 0 8px 18px rgba(16, 34, 56, 0.28);
+  pointer-events: auto;
+  transform: translateY(-8px);
+}
+
+.dual-year-range-input::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border: 3px solid #ffffff;
+  border-radius: 999px;
+  background: var(--album-blue);
+  box-shadow: 0 8px 18px rgba(16, 34, 56, 0.28);
+  pointer-events: auto;
+}
+
+.dual-year-range-input-end::-webkit-slider-thumb {
+  background: var(--album-red);
+}
+
+.dual-year-range-input-end::-moz-range-thumb {
+  background: var(--album-red);
+}
+
+.year-range-scale {
+  display: flex;
+  justify-content: space-between;
+  color: rgba(12, 32, 53, 0.62);
+  font-size: 0.72rem;
+  font-weight: 850;
 }
 
 input,
@@ -354,6 +494,27 @@ select:focus {
   background: #ffffff;
   box-shadow: var(--field-shadow), var(--focus-ring);
   outline: 0;
+}
+
+.dual-year-range-input:hover,
+.dual-year-range-input:focus,
+.dual-year-range-input:active {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  outline: 0;
+}
+
+.dual-year-range-input:focus-visible::-webkit-slider-thumb {
+  box-shadow:
+    0 0 0 4px rgba(24, 182, 170, 0.2),
+    0 8px 18px rgba(16, 34, 56, 0.28);
+}
+
+.dual-year-range-input:focus-visible::-moz-range-thumb {
+  box-shadow:
+    0 0 0 4px rgba(24, 182, 170, 0.2),
+    0 8px 18px rgba(16, 34, 56, 0.28);
 }
 
 input[type="number"] {
@@ -1296,6 +1457,18 @@ select option {
   cursor: wait;
 }
 
+.report-image-label {
+  justify-self: end;
+  border: 1px solid rgba(116, 189, 116, 0.34);
+  border-radius: 999px;
+  background: rgba(116, 189, 116, 0.16);
+  color: #1d7b50;
+  font-size: 0.78rem;
+  font-weight: 900;
+  padding: 8px 11px;
+  white-space: nowrap;
+}
+
 .final-actions {
   position: relative;
   z-index: 1;
@@ -1490,24 +1663,29 @@ select option {
 
 @media (max-width: 560px) {
   .start-screen {
-    padding: 160px 16px 16px;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    padding: clamp(84px, 14vh, 120px) 16px 14px;
     align-content: start;
-    gap: 200px;
+    gap: clamp(82px, 15vh, 124px);
   }
 
   .start-panel {
     justify-self: center;
-    gap: 12px;
+    gap: 10px;
     width: min(320px, 100%);
-    padding: 14px;
+    max-height: calc(100dvh - 24px);
+    overflow: auto;
+    padding: 12px;
   }
 
   h1 {
-    font-size: 2.55rem;
+    font-size: 2.38rem;
   }
 
   .start-copy p:not(.eyebrow) {
-    font-size: 1rem;
+    font-size: 0.94rem;
   }
 
   .field-grid,

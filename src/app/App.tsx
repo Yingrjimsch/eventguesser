@@ -41,8 +41,10 @@ type MultiplayerState = {
 
 const defaultSettings: GameSettings = {
   category: "soccer",
+  endYear: 2022,
   roundCount: 5,
   roundDurationSeconds: 90,
+  startYear: 1930,
 };
 const multiplayerSessionStorageKey = "worldcup-guesser-multiplayer-session";
 
@@ -150,7 +152,12 @@ export function App() {
       return;
     }
 
-    const selectedRounds = selectRandomRounds(availableRounds, nextSettings.roundCount);
+    const selectedRounds = selectRandomRounds(
+      availableRounds,
+      nextSettings.roundCount,
+      nextSettings.startYear,
+      nextSettings.endYear,
+    );
 
     setSettings(nextSettings);
     setRounds(selectedRounds);
@@ -164,6 +171,8 @@ export function App() {
     const state = await postJson<MultiplayerState>("/api/rooms", {
       roundCount: nextSettings.roundCount,
       roundDurationSeconds: nextSettings.roundDurationSeconds,
+      startYear: nextSettings.startYear,
+      endYear: nextSettings.endYear,
     });
 
     setMultiplayerState(state);
@@ -322,6 +331,7 @@ export function App() {
           dataError={roundDataError}
           isDataLoading={isRoundDataLoading}
           maxRounds={mediaReadyRoundCount}
+          rounds={availableRounds}
           onHostMultiplayer={hostMultiplayerGame}
           onStart={startGame}
         />
@@ -458,14 +468,28 @@ async function postJson<T>(url: string, body: unknown): Promise<T> {
   return response.json() as Promise<T>;
 }
 
-function selectRandomRounds(rounds: EventRound[], roundCount: number) {
-  const mediaReadyRounds = rounds.filter(hasRoundPanorama);
-  const remainingRounds = rounds.filter((round) => !hasRoundPanorama(round));
+function selectRandomRounds(
+  rounds: EventRound[],
+  roundCount: number,
+  startYear: number,
+  endYear: number,
+) {
+  const availableRounds = rounds.filter((round) =>
+    isRoundInYearRange(round, startYear, endYear),
+  );
+  const mediaReadyRounds = availableRounds.filter(hasRoundPanorama);
+  const remainingRounds = availableRounds.filter((round) => !hasRoundPanorama(round));
 
   return [
     ...shuffleRounds(mediaReadyRounds),
     ...shuffleRounds(remainingRounds),
   ].slice(0, roundCount);
+}
+
+function isRoundInYearRange(round: EventRound, startYear: number, endYear: number) {
+  const year = Number(round.answer.occurredAt.slice(0, 4));
+
+  return Number.isFinite(year) && year >= startYear && year <= endYear;
 }
 
 function shuffleRounds(rounds: EventRound[]) {

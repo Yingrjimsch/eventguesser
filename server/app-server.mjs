@@ -298,12 +298,29 @@ async function handleRoomApi(request, response, url, roomId, action) {
 }
 
 async function createRoom(payload) {
+  const startYear = clampNumber(Number(payload?.startYear ?? 1930), 1930, 2022);
+  const endYear = clampNumber(Number(payload?.endYear ?? 2022), 1930, 2022);
   const settings = {
     category: "soccer",
+    endYear: Math.max(startYear, endYear),
     roundCount: clampNumber(Number(payload?.roundCount ?? 5), 1, 20),
     roundDurationSeconds: clampNumber(Number(payload?.roundDurationSeconds ?? 90), 30, 180),
+    startYear: Math.min(startYear, endYear),
   };
   const availableRounds = await loadRounds();
+  const selectedRounds = selectRandomRounds(
+    availableRounds,
+    settings.roundCount,
+    settings.startYear,
+    settings.endYear,
+  );
+
+  if (selectedRounds.length === 0) {
+    throw new Error("No rounds available for selected year range");
+  }
+
+  settings.roundCount = selectedRounds.length;
+
   const room = {
     clients: new Set(),
     createdAt: Date.now(),
@@ -314,7 +331,7 @@ async function createRoom(payload) {
     players: new Map(),
     playerNameQueue: shuffle(playerNames),
     roundStartedAt: null,
-    rounds: selectRandomRounds(availableRounds, settings.roundCount),
+    rounds: selectedRounds,
     settings,
   };
 
@@ -484,11 +501,18 @@ async function loadRounds() {
   });
 }
 
-function selectRandomRounds(rounds, roundCount) {
-  const mediaReadyRounds = rounds.filter((round) => Boolean(round.media.panoramas?.length));
-  const remainingRounds = rounds.filter((round) => !round.media.panoramas?.length);
+function selectRandomRounds(rounds, roundCount, startYear, endYear) {
+  const availableRounds = rounds.filter((round) => isRoundInYearRange(round, startYear, endYear));
+  const mediaReadyRounds = availableRounds.filter((round) => Boolean(round.media.panoramas?.length));
+  const remainingRounds = availableRounds.filter((round) => !round.media.panoramas?.length);
 
   return [...shuffle(mediaReadyRounds), ...shuffle(remainingRounds)].slice(0, roundCount);
+}
+
+function isRoundInYearRange(round, startYear, endYear) {
+  const year = Number(round.answer.occurredAt.slice(0, 4));
+
+  return Number.isFinite(year) && year >= startYear && year <= endYear;
 }
 
 function nextPlayerName(room) {

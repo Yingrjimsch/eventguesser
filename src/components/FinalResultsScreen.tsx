@@ -114,16 +114,20 @@ export function FinalResultsScreen({
               <strong>{outcome.score.totalScore.toLocaleString()}</strong>
             </div>
 
-            <button
-              className="report-image-link"
-              type="button"
-              disabled={reportStates[getReportKey(round)] === "sending"}
-              onClick={() => {
-                void submitImageReport(round, setReportStates);
-              }}
-            >
-              {getReportLabel(reportStates[getReportKey(round)] ?? "idle")}
-            </button>
+            {reportStates[getReportKey(round)] === "sent" ? (
+              <span className="report-image-label">Reported</span>
+            ) : (
+              <button
+                className="report-image-link"
+                type="button"
+                disabled={reportStates[getReportKey(round)] === "sending"}
+                onClick={() => {
+                  void submitImageReport(round, setReportStates);
+                }}
+              >
+                {getReportLabel(reportStates[getReportKey(round)] ?? "idle")}
+              </button>
+            )}
           </article>
         ))}
       </section>
